@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf8">
+		<title>Persistent sqlite</title>
+		<script src="/libs/sql-wasm.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+
+	<body>
+        <div id="app">
+            {{ message }}
+            <div id="app-4">
+                <table>
+                    <thead></thead>
+                    <body></body>
+                </table>
+            </div>
+            <div>
+                <ol>
+                    <li v-for="exhibition in exhibitions">
+                        {{ exhibition[1] }}
+                    </li>
+                </ol>
+            </div>
+        </div>
+		<script>
+			    config = {
+			    	locateFile: filename => `/libs/${filename}` 
+			    }
+			    // The `initSqlJs` function is globally provided by all of the main dist files if loaded in the browser.
+			    // We must specify this locateFile function if we are loading a wasm file from anywhere other than the current html page's folder.
+			    initSqlJs(config).then(function(SQL){
+			    	var xhr = new XMLHttpRequest();
+						xhr.open('GET', 'ikon.db', true);
+						xhr.responseType = 'arraybuffer';
+
+						xhr.onload = function(e) {
+						  var uInt8Array = new Uint8Array(this.response);
+						  var db = new SQL.Database(uInt8Array);
+						  onDBLoad(db);
+						  
+						};
+						xhr.send();
+			    	var db = new SQL.Database();
+			    });
+
+
+		</script>
+		<script>
+			var app = new Vue({
+			  el: '#app',
+			  data: {
+			    message: 'Hello Vue!',
+			    contents: [],
+			    exhibitions: []
+			  }
+			});
+
+			var contents;
+
+			function onDBLoad(db){
+				contents = db.exec("SELECT * FROM exhibitions");
+				app.contents = contents;
+				app.exhibitions = contents[0].values;
+			}
+		</script>
+	</body>
+	</html>
