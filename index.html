@@ -2,68 +2,198 @@
 <html>
 	<head>
 		<meta charset="utf8">
-		<title>Persistent sqlite</title>
+		<title>IkOn db</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="/libs/sql-wasm.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	</head>
 
 	<body>
+
         <div id="app">
-            {{ message }}
-            <div id="app-4">
-                <table>
-                    <thead></thead>
-                    <body></body>
-                </table>
-            </div>
-            <div>
-                <ol>
-                    <li v-for="exhibition in exhibitions">
-                        {{ exhibition[1] }}
-                    </li>
-                </ol>
-            </div>
+        	<header>
+        		<div id="status-box">
+        			<span v-if="loaded">connected</span>
+					<span class="warning" v-else>connecting to database...</span>
+				</div>
+				<h1>Ikon DB</h1>
+				
+			</header>
+
+            <div class="tables">
+            	<section>
+            		<h3>exhibitions</h3>
+            		<input v-model="query_exhibition" placeholder="find by title">
+		            <table>
+		                <thead>
+		                	<tr>
+		                		<td>id</td>
+		                		<td>title</td>
+		                		<td>date</td>
+		                		<td>gallery</td>
+		                		<td>artists</td>
+		                	</tr>
+		                </thead>
+		                <body>
+							  <tr v-for="_ in exhibitions">
+							    <td>{{ _.id }}</td>
+							    <td>{{ _.title }}</td>
+							    <td>{{ _.date }}</td>
+							    <td>{{ _.gallery_id }}</td>
+							    <td>{{ _.artists }}</td>
+							  </tr>
+
+		                </body>
+		            </table>
+		        </section>
+            	<section>
+            		<h3>galleries</h3>
+            		<input v-model="query_gallery" placeholder="find by name">
+		            <table>
+		                <thead>
+		                	<tr>
+		                		<td>id</td>
+		                		<td>name</td>
+		                	</tr>
+		                </thead>
+		                <body>
+							  <tr v-for="_ in galleries">
+							    <td>{{ _.id }}</td>
+							    <td>{{ _.name }}</td>
+							  </tr>
+		                </body>
+		            </table>
+		        </section>
+
+            	<section>
+            		<h3>artists</h3>
+            		<input v-model="query_artist" placeholder="find by name">
+		            <table>
+		                <thead>
+		                	<tr>
+		                		<td>id</td>
+		                		<td>name</td>
+		                	</tr>
+		                </thead>
+		                <body>
+							  <tr v-for="_ in artists">
+							    <td>{{ _.id }}</td>
+							    <td>{{ _.name }}</td>
+							  </tr>
+
+		                </body>
+		            </table>
+		        </section>
+	        </div>
         </div>
 		<script>
-			    config = {
-			    	locateFile: filename => `/libs/${filename}` 
-			    }
-			    // The `initSqlJs` function is globally provided by all of the main dist files if loaded in the browser.
-			    // We must specify this locateFile function if we are loading a wasm file from anywhere other than the current html page's folder.
-			    initSqlJs(config).then(function(SQL){
-			    	var xhr = new XMLHttpRequest();
-						xhr.open('GET', 'ikon.db', true);
-						xhr.responseType = 'arraybuffer';
+			var db;
+			var app;
 
-						xhr.onload = function(e) {
-						  var uInt8Array = new Uint8Array(this.response);
-						  var db = new SQL.Database(uInt8Array);
-						  onDBLoad(db);
-						  
-						};
-						xhr.send();
-			    	var db = new SQL.Database();
-			    });
-
-
-		</script>
-		<script>
-			var app = new Vue({
+			app = new Vue({
 			  el: '#app',
 			  data: {
-			    message: 'Hello Vue!',
-			    contents: [],
-			    exhibitions: []
+			  	query_exhibition: "",
+			  	query_gallery: "",
+			  	query_artist: "",
+			  	loaded: false,
+			  },
+			  computed:{
+			    exhibitions: function(){
+			    	if(this.loaded){
+			    		return getExhibitionsTable(db, this.query_exhibition);
+			    	}else{
+			    		return [];
+			    	}
+			    },
+			    artists: function(){
+			    	if(this.loaded){
+			    		return getArtistsTable(db, this.query_artist);
+			    	}else{
+			    		return [];
+			    	}
+			    },
+			    galleries: function(){
+			    	if(this.loaded){
+			    		return getGalleriesTable(db, this.query_gallery);
+			    	}else{
+			    		return [];
+			    	}
+			    }
 			  }
 			});
 
-			var contents;
 
-			function onDBLoad(db){
-				contents = db.exec("SELECT * FROM exhibitions");
-				app.contents = contents;
-				app.exhibitions = contents[0].values;
+			function getExhibitionsTable(db, query){
+				let contents = db.exec("SELECT id, title, gallery_id, date FROM exhibitions WHERE title LIKE '"+"%"+query+"%"+"'");
+				items = []
+				if(contents.length==0)
+					return []
+
+				for(row of contents[0].values){
+					items.push({
+						id: row[0],
+						title: row[1],
+						date: row[3]
+					});
+				}
+				return items;
 			}
+
+			function getArtistsTable(db, query){
+				let contents = db.exec("SELECT id, name FROM artists WHERE name LIKE '"+"%"+query+"%"+"'");
+				items = []
+				if(contents.length==0)
+					return []
+
+				for(row of contents[0].values){
+					items.push({
+						id: row[0],
+						name: row[1]
+					});
+				}
+				return items;
+			}
+
+			function getGalleriesTable(db, query){
+				let contents = db.exec("SELECT id, name FROM galleries WHERE name LIKE '"+"%"+query+"%"+"'");
+				items = []
+				if(contents.length==0)
+					return []
+
+				for(row of contents[0].values){
+					items.push({
+						id: row[0],
+						name: row[1]
+					});
+				}
+				return items;
+			}
+
+			function onDBLoad(database){
+				db = database;
+				app.loaded=true;
+			}
+
+			// load database
+			config = {
+		    	locateFile: filename => `/libs/${filename}` 
+		    }
+		    initSqlJs(config).then(function(SQL){
+		    	var xhr = new XMLHttpRequest();
+					xhr.open('GET', 'ikon.db', true);
+					xhr.responseType = 'arraybuffer';
+
+					xhr.onload = function(e) {
+					  var uInt8Array = new Uint8Array(this.response);
+					  var db = new SQL.Database(uInt8Array);
+					  onDBLoad(db);  
+					};
+					xhr.send();
+		    	var db = new SQL.Database();
+		    });
+
+
 		</script>
 	</body>
 	</html>
