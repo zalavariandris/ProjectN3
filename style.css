@@ -1,11 +1,10 @@
 body {
   background-color: #f1f1f1;
   font-family: "Roboto", helvetica, arial, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   text-rendering: optimizeLegibility;
-  margin: auto;
-  max-width: 800px;
+  margin: 6em;
 }
 
 h3{
@@ -15,7 +14,6 @@ h3{
 
 /*** Table Styles **/
 table{
-	font-size: 12px;
 	border-collapse: collapse;
 	padding: 1px;
 	background: white;
@@ -27,6 +25,10 @@ thead {
   font-weight: 100;
   text-align:left;
   vertical-align:middle;
+}
+
+tbody tr:hover{
+	background: orange;
 }
    
 td {
@@ -41,6 +43,7 @@ input{
 	padding: 1em;
 	border: none;
 }
+
 input:focus{
 	outline: none;
 }
@@ -55,11 +58,45 @@ input:focus{
 	color: darkorange;
 }
 
-.tables{
+main{
 	display: flex;
 	justify-content: center;
 }
 
-.tables>*{
+main>*{
 	margin: 0 1em;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-basis: 50%;
+}
+
+.label{
+	display: inline-block;
+    margin: 0.25em;
+    margin-right: 1em;
+    padding: 0.25em 0.5em;
+    border-bottom: 1px black solid;
+    min-height: 1em;
+}
+.label:hover{
+	background: darkorange;
+	cursor: pointer;
+}
+
+textarea{
+	display: block;
+	width: 100%;
+	height: 6em;
+}
+
+
+textarea.code.valid{
+	border: none;
+	outline: none;
+}
+textarea.code{
+	outline: red solid 3px;
+}
+textarea.code:focus{
+	outline: none;
 }

@@ -1,3 +1,5 @@
+
+
 def get_ikon_page(date_from, date_to):
     import requests
     r = requests.post("http://ikon.hu/archiv/search", data={
@@ -20,7 +22,7 @@ def get_ikon_page(date_from, date_to):
     return r.text
 
 # Query all weeks and save html to Disk
-def get_pages_from_http:
+def get_pages_from_http():
     import time
     DATE_FROM = datetime.date(2017,8,10)+datetime.timedelta(days=7)
     DATE_TO =   datetime.date(2018, 11, 16)

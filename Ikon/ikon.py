@@ -18,7 +18,6 @@ if __name__ == "__main__":
     connection.execute("DROP TABLE IF EXISTS galleries");
     connection.execute("DROP TABLE IF EXISTS artists_exhibitions")
 
-
     """
     Create tables
     """
@@ -59,14 +58,9 @@ if __name__ == "__main__":
     Fill tables with data
     """
     # read data from htlm files
-    # filepaths = list(scrape.get_filepaths_on_disk("C:/Users/andris/IkOn/IkOn_HTML"))[:50]
-    # pages = list(scrape.read_files_from_disk(filepaths))
-    # data = scrape.parse_html_pages(pages)
-
-    data = [
-        {'title': "Thinking some more...",  'gallery': "Obudai Tarsaskor Galeria",  'artists': ["andris", "judit", "masa"],  'date': "2018"},
-        {'title': "FKSE szalon",            'gallery': "MKE",                       'artists': ["andris", "masa"],            'date': "2019"}
-    ]
+    filepaths = list(scrape.get_filepaths_on_disk("./tmp"))
+    pages = list(scrape.read_files_from_disk(filepaths))
+    data = scrape.parse_html_pages(pages)
     
     # fill table from data
     print("Filling tables with data...")
@@ -134,5 +128,16 @@ if __name__ == "__main__":
 
     connection.commit()
 
-    for row in data:
-        print(row)
+    # SELECT a.id, a.name, e.id, e.title, e.date, g.id, g.name
+    # FROM artists_exhibitions ae
+    # INNER JOIN galleries g ON g.id = e.gallery_id
+    # INNER JOIN exhibitions e ON e.id = ae.exhibition_id
+    # INNER JOIN artists a ON a.id = ae.artist_id;
+    # WHERE e.title LIKE 'Nukle%' AND g.name LIKE '%' AND a.name LIKE '%';
+    
+    """
+
+    SELECT * FROM tableName WHERE columnToCheck NOT REGEXP '[A-Za-z0-9]';
+    SELECT name FROM artists WHERE name REGEXP '[A-Za-z0-9]';
+    """
+
