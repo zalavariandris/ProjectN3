@@ -58,3 +58,14 @@ if __name__ == "__main__":
     SELECT g.id FROM galleries g INNER JOIN exhibitions e ON g.id == e.gallery_id WHERE e.id=2;
     """
 
+    sql_select_entities_with_filter = '''
+    SELECT a.id, a.name, e.id, e.title, e.date, g.id, g.name
+    FROM artists_exhibitions ae
+    INNER JOIN galleries g ON g.id = e.gallery_id
+    INNER JOIN exhibitions e ON e.id = ae.exhibition_id
+    INNER JOIN artists a ON a.id = ae.artist_id
+    WHERE a.name LIKE 'and%' AND e.title LIKE 'Think%';
+    '''
+
+
+

@@ -1,3 +1,39 @@
+def get_ikon_page(date_from, date_to):
+    import requests
+    r = requests.post("http://ikon.hu/archiv/search", data={
+        "authenticityToken":"161b8648729c861de486bc5fc9106f47f3a70293", 
+        "opening_tol_y"    : "{}".format(date_from.year),
+        "opening_tol_m"    : "{}".format(date_from.month),
+        "opening_tol_d"    : "{}".format(date_from.day),
+        "opening_ig_y"     : "{}".format(date_to.year),
+        "opening_ig_m"     : "{}".format(date_to.month),
+        "opening_ig_d"     : "{}".format(date_to.day),
+        "open_until_tol_y" : "1999",
+        "open_until_tol_m" : "01",
+        "open_until_tol_d" : "01",
+        "open_until_ig_y"  : "2022",
+        "open_until_ig_m"  : "12",
+        "open_until_ig_d"  : "31",
+        "sortOrder"        : "opening",
+        "search"           : "Keresés"
+        })
+    return r.text
+
+# Query all weeks and save html to Disk
+def get_pages_from_http:
+    import time
+    DATE_FROM = datetime.date(2017,8,10)+datetime.timedelta(days=7)
+    DATE_TO =   datetime.date(2018, 11, 16)
+    current_date = DATE_FROM
+    while(current_date<DATE_TO):
+        page = get_ikon_page(current_date, current_date+datetime.timedelta(days=6))
+        current_date+=datetime.timedelta(days=7)
+
+        # save page to disk
+        filename = "IkOn{0:%Y%m%d}-{1:%Y%m%d}.html".format(current_date, current_date+datetime.timedelta(days=6))
+        with open(filename, 'w', encoding='utf8') as html_file:
+            html_file.write(page)
+        
 def get_filepaths_on_disk(dirpath):
     print("get files in folder...", dirpath)
     # get all htlm files
