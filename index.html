@@ -19,21 +19,24 @@
             </header>
 
             <main>
-<!--                 <section>
+                <section>
                     <h3>exhibitions</h3>
                     <input v-model="query_exhibition" placeholder="find by title">
                     <table>
                         <thead>
                             <tr>
+                            	
                                 <td>id</td>
                                 <td>title</td>
                                 <td>date</td>
                                 <td>gallery</td>
                                 <td>artists</td>
+                                <td>html</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="_ in exhibitions">
+                            	
                                 <td>{{ _.id }}</td>
                                 <td>{{ _.title }}</td>
                                 <td>{{ _.date }}</td>
@@ -45,12 +48,14 @@
                                         <span class="label" :title=artist.id>{{ artist.name }}</span>
                                     </template>
                                 </td>
+                                <td class="ikon_source" v-html="_.html"></td>
+
                             </tr>
 
                         </tbody>
                     </table>
-                </section> -->
-                <section>
+                </section>
+<!--                  <section>
                     <h3>artists</h3>
                     <input v-model="query_artist" placeholder="find by name">
                     <textarea data-gramm_editor="false" v-bind:class="{ valid: artist_filter_valid }" class="code" v-model="artist_filter_expression" placeholder="find by exp"></textarea>
@@ -72,7 +77,7 @@
 
                         </tbody>
                     </table>
-                </section>
+                </section> -->
             </main>
 
         </div>

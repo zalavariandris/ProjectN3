@@ -100,3 +100,11 @@ textarea.code{
 textarea.code:focus{
 	outline: none;
 }
+
+
+.ikon-source{
+	background-color: white;
+}
+.ikon-source .sep{
+	display: block;
+}

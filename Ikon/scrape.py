@@ -46,7 +46,7 @@ def get_filepaths_on_disk(dirpath):
             yield filepath
 
 def read_files_from_disk(filepaths):
-    print("reading files from disk...")
+    print("reading {} files from disk...".format(len(filepaths)))
     for filepath in filepaths:
         with open(filepath, encoding="utf-8") as html_file:
             page = html_file.read()
@@ -76,7 +76,8 @@ def parse_html_pages(pages):
             "title": parse_title(elem),
             "gallery": parse_gallery(elem),
             "date": parse_date(elem),
-            "artists": parse_artists(elem)
+            "artists": parse_artists(elem),
+            "html": str(elem)
         }
 
     def parse_page(page):

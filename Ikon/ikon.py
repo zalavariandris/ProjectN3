@@ -25,7 +25,8 @@ if __name__ == "__main__":
         id integer PRIMARY KEY,
         title text NOT NULL,
         gallery_id integer,
-        date text
+        date text,
+        html text
     );"""
 
     sql_create_artists_table = """CREATE TABLE IF NOT EXISTS artists (
@@ -65,19 +66,12 @@ if __name__ == "__main__":
     # fill table from data
     print("Filling tables with data...")
     sql_create_exhibition = '''
-        INSERT INTO exhibitions(title, date, gallery_id)
-        VALUES(?,?,?);'''
+        INSERT INTO exhibitions(title, date, gallery_id, html)
+        VALUES(?,?,?,?);'''
 
     sql_create_artist = '''
         INSERT INTO artists (name)
         VALUES(?);'''
-
-    sql_create_artist_if_unique = '''
-        INSERT INTO artists (name)                                                                                                                                                                          
-        SELECT ?                                                                                                                                                                                     
-        EXCEPT                                                                                                                                                                                              
-        SELECT name FROM artists WHERE name LIKE ?; 
-       '''
 
     sql_create_gallery = '''
         INSERT INTO galleries(name)
@@ -108,17 +102,17 @@ if __name__ == "__main__":
                     gallery_id = gallery_id[0]
 
                 # insert exhibition
-                cursor.execute(sql_create_exhibition, (row['title'], row['date'], gallery_id))
+                cursor.execute(sql_create_exhibition, (row['title'], row['date'], gallery_id, row['html']))
                 exhibition_id = cursor.lastrowid
 
                 # insert artists
                 for artist_name in row['artists']:
-                    artist_id = connection.execute("SELECT id FROM artists WHERE name=?;", (artist_name, )).fetchone()
-                    if artist_id==None:
+                    row = connection.execute("SELECT id FROM artists WHERE name=?;", (artist_name, )).fetchone()
+                    if row==None:
                         cursor.execute(sql_create_artist, (artist_name, ) ) # insert anyway
                         artist_id = cursor.lastrowid
                     else:
-                        artist_id = artist_id[0]
+                        artist_id = row[0]
                     cursor.execute(sql_link_artist_to_exhibition, (artist_id, exhibition_id) )
 
             except Error as e:

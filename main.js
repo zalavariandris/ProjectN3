@@ -17,19 +17,20 @@ app = new Vue({
   computed:{
     exhibitions: function(){
     	if(this.loaded){
-    		let contents = db.exec("SELECT id, title, gallery_id, date FROM exhibitions WHERE title LIKE '"+"%"+this.query_exhibition+"%"+"'");
+    		let contents = db.exec("SELECT id, title, gallery_id, date, html FROM exhibitions WHERE title LIKE '"+"%"+this.query_exhibition+"%"+"'");
 	
 			if(contents.length==0)
 				return []
 
 			let items = []
 			for(row of contents[0].values){
-
+				let html =  ""+row[4];
 				items.push({
 					id: row[0],
 					title: row[1],
 					date: row[3],
-					artists: getArtistsAtExhibition(db, row[0])
+					artists: getArtistsAtExhibition(db, row[0]),
+					html: html
 				});
 			}
 			return items;
@@ -202,6 +203,8 @@ function getGalleriesTable(db, query){
 function onDBLoad(database){
 	db = database;
 	app.loaded=true;
+
+	console.log("db loaded");
 }
 
 // load database
@@ -211,11 +214,12 @@ config = {
 
 initSqlJs(config).then(function(SQL){
 	var xhr = new XMLHttpRequest();
+		console.log("donwload ikon.db");
 		xhr.open('GET', 'ikon.db', true);
 		xhr.responseType = 'arraybuffer';
 
 		xhr.onprogress = function(e){
-			
+			console.log(e.total/e.loaded, "%");	
 		};
 		xhr.onload = function(e) {
 		  var uInt8Array = new Uint8Array(this.response);
