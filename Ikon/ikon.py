@@ -135,3 +135,4 @@ if __name__ == "__main__":
     SELECT name FROM artists WHERE name REGEXP '[A-Za-z0-9]';
     """
 
+    
