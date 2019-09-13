@@ -90,8 +90,7 @@ def select_exhibitions_where_artist_is(connection, artist):
     WHERE ae.artist_id = {artist_id}
     '''.replace("{artist_id}", str(artist[0]))
 
-    for exhibition in connection.execute(sql):
-        yield exhibition
+    return connection.execute(sql).fetchall()
 
 def select_artist_where_id_is(connection, ID):
     sql = '''
@@ -118,9 +117,21 @@ def select_artists_where_name_like(connection, text):
     WHERE name LIKE '{text}';
     '''.replace('{text}', text)
 
-    table = connection.execute(sql);
-    for row in table:
-        yield row
+    for a in connection.execute(sql):
+        yield a
+
+# 
+def select_artists_where_name_in(connection, names):
+    sql = '''
+    SELECT id, name
+    FROM artists
+    WHERE name IN ({});
+    '''
+
+    placeholders = ",".join(["?"]*len(names))
+    sql = sql.replace("{}", placeholders)
+
+    return connection.execute(sql, names).fetchall()
 
 def select_gallery_where_id_is(connection, ID):
     sql = '''
@@ -140,17 +151,14 @@ def select_gallery_where_name_is(connection, name):
 
     return connection.execute(sql).fetchone();
 
-def select_artists_where_name_like(connection, text):
+def select_gallery_where_name_like(connection, text):
     sql = '''
     SELECT id, name
     FROM galleries
     WHERE name LIKE '{text}';
     '''.replace('{text}', text)
 
-    table = connection.execute(sql);
-    for row in table:
-        yield row
-
+    return connection.execute(sql).fetchall();
 
 
 """
@@ -167,3 +175,4 @@ def unlink_artist_from_exhibition(connection, artist, exhibition):
     DELETE FROM artists_exhibitions
     WHERE artist_id = ? AND exhibition_id = ?;'''
     connection.execute(sql, (artist[0], exhibition[0]) )
+

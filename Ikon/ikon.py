@@ -8,7 +8,7 @@ if __name__ == "__main__":
     Fill tables with data
     """
     # read data from htlm files
-    filepaths = list(scrape.get_filepaths_on_disk("./tmp"))[:1]
+    filepaths = list(scrape.get_filepaths_on_disk("./tmp"))
     pages = list(scrape.read_files_from_disk(filepaths))
     data = scrape.parse_html_pages(pages)
     
