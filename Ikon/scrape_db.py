@@ -54,6 +54,9 @@ def read_files_from_disk(filepaths):
 
 def parse_html_pages(pages):
     def parse_date(elem):
+        """
+        parse ikon elements to TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
+        """
         import datetime
         elem.select("div.year-month a")[0].text.split(" ")[0].replace(".", "")
         elem.select("div.day a")[0].text
@@ -101,3 +104,11 @@ def parse_html_pages(pages):
         data += parse_page(page) 
 
     return data;
+
+if __name__=="__main__":
+    filepaths = list(get_filepaths_on_disk("./tmp"))[:1]
+    pages = list(read_files_from_disk(filepaths))
+    data = parse_html_pages(pages)
+
+    for row in data:
+        print(row['date'] )
