@@ -1,12 +1,13 @@
-def profile(func):
+def profile(f):
     import time
     def inner(*args, **kwargs):
         # storing time before function execution 
         begin = time.time() 
-        print("---",func.__name__,"---")
-        func(*args, **kwargs) 
+        print(f.__name__,"...")
+        r = f(*args, **kwargs) 
   
         # storing time after function execution 
         end = time.time() 
-        print("---Total time taken in : ", func.__name__, end - begin)
+        print("  ΔT:", end - begin)
+        return r
     return inner

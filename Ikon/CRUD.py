@@ -176,3 +176,20 @@ def unlink_artist_from_exhibition(connection, artist, exhibition):
     WHERE artist_id = ? AND exhibition_id = ?;'''
     connection.execute(sql, (artist[0], exhibition[0]) )
 
+def select_exhibitions_of_artist(connection, artist):
+    sql='''
+    SELECT e.id, e.title, e.date
+    FROM artists_exhibitions ae 
+    INNER JOIN exhibitions e ON e.id == ae.exhibition_id 
+    WHERE ae.artist_id=?;
+    '''
+    return connection.execute(sql, (artist[0], )).fetchall()
+
+def select_artists_of_exhibition(connection, exhibition):
+    sql='''
+    SELECT ae.artist_id
+    FROM artists_exhibitions ae 
+    INNER JOIN exhibitions e ON e.id == ae.exhibition_id 
+    WHERE e.id=?;
+    '''
+

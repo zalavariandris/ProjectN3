@@ -111,4 +111,4 @@ if __name__=="__main__":
     data = parse_html_pages(pages)
 
     for row in data:
-        print(row['date'] )
+        print("- {}, {}, {}".format(row['title'], row['date'], row['gallery']))

@@ -1,4 +1,3 @@
-@@ -1,156 +0,0 @@
 from utilities.profiler import profile
 from CRUD import *
 import re
@@ -40,7 +39,7 @@ def delete_rows_starts_with_non_letters(connection):
     # Törölj mindent, ami nem betüvel kezdődik
     sql = "SELECT name FROM artists WHERE name NOT REGEXP '^[A-Ș]' ORDER BY name ASC;"
     result = connection.execute(sql).fetchall()
-    print(len(result))
+    print(len(result)) if result else None
     for item in result:
         print(item[0])
 
@@ -49,10 +48,9 @@ def delete_rows_starts_with_non_letters(connection):
 
 @profile
 def delete_rows_starts_with_A_or_AZ_but_A_FEHER_VERA(connection):
-    print("delete_rows_starts_with_A_or_AZ_but_A_FEHER_VERA")
     sql = "SELECT name FROM artists WHERE name LIKE 'Az %' OR name LIKE 'A %' AND name NOT LIKE 'A Fehér Vera' ORDER BY name ASC;"
     result = connection.execute(sql).fetchall()
-    print(len(result))
+    print(len(result)) if result else None
     for item in result:
         print(item[0])
 
@@ -77,6 +75,28 @@ def remove_parenthesis_from_names(connection):
 
 @profile
 def split_artist_entries_with_multiple_artist_names(connection):
+    """
+    Barna Orsolya – Fodor Emese – Kristóf Gábor – Pálinkás Bence György
+    Bondor Csilla Csurka Eszter Kucsora Márta Sipos Eszter Schmal Róza Verebics Ági Verebics Kati Földesi Barnabás Herman Levente Kondor Attila Kovács Lehel Lőrincz Tamás Péterfy Ábel Szotyory László
+     Bernát András Bullás József Chilf Mária Csiszér Zsuzsa Fóris Katalin Gajzágó Donáta Horváth Lóczi Judit Káldi Kata Korodi Luca Kovács Lola Lengyel András Madácsy István Nagy Gábor György Nagy Zsófia Nemere Réka Ötvös Zoltán Soós Tamás Szabó Attila Szilágy
+Bernát András Bullás József Chilf Mária Csiszér Zsuzsa Fóris Katalin Gajzágó Donáta Horváth Lóczi Judit Káldi Kata Korodi Luca Kovács Lola Lengyel András Madácsy István Nagy Gábor György Nagy Zsófia Nemere Réka Ötvös Zoltán Soós Tamás Szabó Attila Szilágy
+
+- Barna Orsolya – Gosztola Kitti – Pálinkás Bence György
+- Gosztola Kitti & Hegedűs Fanni & Pálinkás Bence
+- Gosztola Kitti & Pálinkás Bence & Hegedűs Fanni
+- Gosztola Kitti - Hegedűs Fanni - Pálinkás Bence György
+- Gosztola Kitti – Pálinkás Bence György
+- Gosztola Kitti–Pálinkás Bence György
+
+- Gosztola Kitti & Hegedűs Fanni & Pálinkás Bence
+- Gosztola Kitti & Pálinkás Bence & Hegedűs Fanni
+- Gosztola Kitti - Hegedűs Fanni - Pálinkás Bence György
+
+- Herendi Péter  ▪ Gábor Éva Mária
+
+- Hencze Tamás
+- Haraszty István  Hencze Tamás
+    """
     def split_names(text, delimiter):
         return [_.strip() for _ in filter(None, text.split(delimiter))]
 
@@ -84,16 +104,16 @@ def split_artist_entries_with_multiple_artist_names(connection):
         row = connection.execute("SELECT id FROM artists WHERE name=?;", (name, )).fetchone()
         if row==None:
             cursor = connection.cursor()
-            artist_id = insert_artist(artist_name)
+            artist_id = insert_artist(connection, artist_name)
 
         else:
             artist_id = row[0]
         return artist_id, name
 
-    for delimiter in ["|","*","•"]:
+    for delimiter in ["|","*","•", " – "]:
         for artist_list_id, artist_list_text in select_artists_where_name_like(connection, "%{delimiter}%_{delimiter}%".replace("{delimiter}", delimiter)):
             # find exhibitions of the current text of artist names
-            exhibitions = list(select_exhibitions_of_artist(connection, artist_list_id))
+            exhibitions = list(select_exhibitions_of_artist(connection, (artist_list_id, )))
             exhibition_ids = [_[0] for _ in exhibitions]
             
             # extact artist names from text
@@ -105,13 +125,14 @@ def split_artist_entries_with_multiple_artist_names(connection):
 
                 # link exhibitions to artists
                 for exhibition_id in exhibition_ids:
-                    link_artist_to_exhibition(artist, (exhibitioin_id, ))
+                    link_artist_to_exhibition(connection, artist, (exhibition_id, ))
 
             # clear artist lists from tables
             for exhibition_id in exhibition_ids:
-                unlink_artist_from_exhibition((artist_list_id, ), (exhibition_id, ))
-            delete_artist_where_id_is(arists_list_id)
-            
+                unlink_artist_from_exhibition(connection, (artist_list_id, ), (exhibition_id, ))
+            delete_artist_where_id_is(connection, artist_list_id)
+        
+@profile    
 def find_variants(connection):
     sql = '''
     SELECT name
@@ -136,21 +157,122 @@ def find_variants(connection):
     for variants in cleaned_namevariants:
         yield variants
 
+@profile
+def find_variants(connection, searchlimit=None):
+    sql = '''
+    SELECT id, name
+    FROM artists
+    ORDER BY name ASC;
+    '''
+
+    all_artists = connection.execute(sql).fetchall()[:searchlimit]
+    variants = dict()
+
+    for A in all_artists:
+        for B in all_artists:
+            if A[1] in B[1] and A[0]!=B[0] and B not in variants:
+                if A not in variants:
+                    variants[A] = []
+                variants[A].append(B)
+
+    return sorted( [[a] + b for a, b in variants.items()], key=lambda a : len(a[1]) )
+
+def remove_frequent_indicatives(connection):
+    """
+    író
+    előadása
+    építész
+    énekesnő
+    esztéta
+    képzőművész
+    fotóművész
+    szobrászművész
+    művészettörténész
+    kurátor
+    társkurátor
+    fotográfus
+    festőművész
+    DLA
+    képzőművész / visual artist
+    grafikusművész
+    médiaművész
+    építész
+    iparművész
+    fotóriporter
+    filmkritikus
+    műkritikus
+    művészeti író    
+    kritikus
+    esztéta
+    szerkesztője
+    művészettörténész
+    művészetkritikus
+    esztéta
+    egyetemi docens
+    egyetemi adjunktus
+    Mnkácsy-díjas festőművész
+    Munkácsy-díjas
+    zenész
+    zeneszerző
+    basszusklarinét
+    filmkritikus
+    filmtörténész
+    filmesztéta
+    irodalmár
+    filozófus
+    előadása
+    médiakritikus
+    esztéta  médiakritikus
+    fotográfus
+    egyetemi tanár
+    """
+    pass
+
+
+filmrendező
+rendező
+kulturális antropológus
+rende
+főszerkesztő
+ szerkesztőművészettörténész
+
+def delete_suspicous(connection):
+    # with two spaces "  "
+    with a single dash: " - "
+    " & "
+    with lot of spaces "% % % %"
+    with strange characters not latin
+    sql = "DELETE FROM artists WHERE name NOT REGEXP '^[A-Ș]';"
+
+
+
 if __name__ == "__main__":
     connection = connectToDatabase("../ikon.db")
     remove_parenthesis_from_names(connection)
     delete_rows_starts_with_non_letters(connection)
     split_artist_entries_with_multiple_artist_names(connection)
     delete_rows_starts_with_A_or_AZ_but_A_FEHER_VERA(connection)
+    remove_frequent_indicatives(connection)
     connection.commit()
 
     # clean
     # művész, író, költő, képzőnűvész, művészeti író, ***díjas építést
 
-    # for variants in find_variants(connection):
-    #     if len(variants[0].split(" "))==1:
-    #         artist = list(select_artists_where_name_like(connection, variants[0]))[0]
-    #         exhibition = list(select_exhibitions_where_artist_is(connection, artist))[0]
-    #         print(variants[0], "    (  ",exhibition[1], " )")
-    #         print(variants[1:])
-    #         print()
+    for variants in [v for v in find_variants(connection) if len(v[0][1].split(" "))>1]:
+        for a in variants:
+            print("-", a[1])
+        print()
+        # if len(variants[1].split(" "))==1:
+        #     artist = list(select_artists_where_name_like(connection, variants[1]))[0]
+        #     exhibition = list(select_exhibitions_where_artist_is(connection, artist))[0]
+        #     print(variants[0], "    (  ",exhibition[1], " )")
+        #     print(variants[1:])
+        #     print()
+
+    # for a in select_artists_where_name_like(connection, "%  %"):
+    #     e = select_exhibitions_of_artist(connection, a)
+    #     print(a[1], "      ", e[0][1])
+
+    def delete_suspicous(connection):
+
+

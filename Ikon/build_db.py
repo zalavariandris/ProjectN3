@@ -83,3 +83,18 @@ def fill_database(connection, data):
             link_artist_to_exhibition(connection, (artist_id, ), (exhibition_id, ) )
 
     connection.commit()
+
+if __name__ == "__main__":
+    import scrape_db as scrape
+    from build_db import *
+    from CRUD import *
+    connection = init_database()
+
+    """
+    Fill tables with data
+    """
+    # read data from htlm files
+    filepaths = list(scrape.get_filepaths_on_disk("./tmp"))
+    pages = list(scrape.read_files_from_disk(filepaths))
+    data = scrape.parse_html_pages(pages)
+    fill_database(connection, data)
