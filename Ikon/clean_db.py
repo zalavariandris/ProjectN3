@@ -167,85 +167,158 @@ def find_variants(connection, searchlimit=None):
 
     all_artists = connection.execute(sql).fetchall()[:searchlimit]
     variants = dict()
-
     for A in all_artists:
         for B in all_artists:
             if A[1] in B[1] and A[0]!=B[0] and B not in variants:
                 if A not in variants:
                     variants[A] = []
                 variants[A].append(B)
+                s.add(B)
 
     return sorted( [[a] + b for a, b in variants.items()], key=lambda a : len(a[1]) )
 
 def remove_frequent_indicatives(connection):
-    """
-    író
-    előadása
-    építész
-    énekesnő
-    esztéta
-    képzőművész
-    fotóművész
-    szobrászművész
-    művészettörténész
-    kurátor
-    társkurátor
-    fotográfus
-    festőművész
-    DLA
-    képzőművész / visual artist
-    grafikusművész
-    médiaművész
-    építész
-    iparművész
-    fotóriporter
-    filmkritikus
-    műkritikus
-    művészeti író    
-    kritikus
-    esztéta
-    szerkesztője
-    művészettörténész
-    művészetkritikus
-    esztéta
-    egyetemi docens
-    egyetemi adjunktus
-    Mnkácsy-díjas festőművész
-    Munkácsy-díjas
-    zenész
-    zeneszerző
-    basszusklarinét
-    filmkritikus
-    filmtörténész
-    filmesztéta
-    irodalmár
-    filozófus
-    előadása
-    médiakritikus
-    esztéta  médiakritikus
-    fotográfus
-    egyetemi tanár
-    """
-    pass
+
+    indicatives = ["író",
+    "előadása",
+    "építész",
+    "énekesnő",
+    "esztéta",
+    "képzőművész",
+    "fotóművész",
+    "szobrászművész",
+    "művészettörténész",
+    "kurátor",
+    "társkurátor",
+    "fotográfus",
+    "festőművész",
+    "DLA",
+    "képzőművész / visual artist",
+    "grafikusművész",
+    "médiaművész",
+    "iparművész",
+    "fotóriporter",
+    "filmkritikus",
+    "műkritikus",
+    "művészeti író    ",
+    "kritikus",
+    "szerkesztője",
+    "művészetkritikus",
+    "egyetemi docens",
+    "egyetemi adjunktus",
+    "egyetemi tanár",
+    "Mnkácsy-díjas",
+    "zenész",
+    "zeneszerző",
+    "basszusklarinét",
+    "filmtörténész",
+    "filmesztéta",
+    "irodalmár",
+    "filozófus",
+    "médiakritikus",
+    "riporter",
+    "pszichológus",
+    "költő",
+    "témavezető"]
+
+    sql = '''
+    SELECT id, name FROM artists;
+    '''
+    for artist in connection.execute(sql).fetchall():
+        for indicative in indicatives:
+            if indicative in artist[1]:
+                clean_name = artist[1].replace(indicative, "").strip()
+                update_artist_where_id_is(connection, artist[0], clean_name)
 
 
-filmrendező
-rendező
-kulturális antropológus
-rende
-főszerkesztő
- szerkesztőművészettörténész
+# filmrendező
+# rendező
+# kulturális antropológus
+# rende
+# főszerkesztő
+#  szerkesztőművészettörténész
 
-def delete_suspicous(connection):
+def tag_suspicous(connection):
+    # contains weird characters  
+    sql = '''
+    UPDATE artists
+    SET suspicious="contains weird characters"
+    WHERE name REGEXP '[:/*©"#♥]';
+    '''
+    sql = '''
+    UPDATE artists
+    SET suspicious="contains weird characters"
+    WHERE name REGEXP '[^a-zA-ZőűŐŰĂčć\u00C0-\u00FF-. ]';
+    '''
+    connection.execute(sql)
+
     # with two spaces "  "
-    with a single dash: " - "
-    " & "
-    with lot of spaces "% % % %"
-    with strange characters not latin
-    sql = "DELETE FROM artists WHERE name NOT REGEXP '^[A-Ș]';"
+    sql = '''
+    UPDATE artists
+    SET suspicious="two spaces"
+    WHERE name LIKE "%  %"
+    '''
+    # with lot of spaces
+    sql = '''
+    UPDATE artists
+    SET suspicious="too many words"
+    WHERE name LIKE "% % % %";
+    '''
+    connection.execute(sql)
+
+    # one word only
+    sql = '''
+    UPDATE artists
+    SET suspicious="single word only"
+    WHERE name NOT LIKE "% %";
+    '''
+    connection.execute(sql)
+
+    # contains numbers
+    sql = '''
+    UPDATE artists
+    SET suspicious="contains numbers"
+    WHERE name REGEXP '[0-9]';
+    '''
+    connection.execute(sql)
+
+    # contains 'és'
+    sql = '''
+    UPDATE artists
+    SET suspicious="contains 'és'"
+    WHERE name LIKE '%és%';
+    '''
+    connection.execute(sql)
+
+    # contains 'foglalkozás'
+    sql = '''
+    UPDATE artists
+    SET suspicious="contains 'foglalkozás'"
+    WHERE name LIKE '%foglalkozás%';
+    '''
+    connection.execute(sql)
+
+    # contains 'kiállítás'
+    sql = '''
+    UPDATE artists
+    SET suspicious="contains 'kiállítás'"
+    WHERE name LIKE '%kiállítás%';
+    '''
+    connection.execute(sql)
+    
+    
+
+def delete_suspicious(connection):
+    sql = '''
+    DELETE
+    FROM artists
+    WHERE suspicious NOT NULL;
+    '''
+    connection.execute(sql)
 
 
 
+    
 if __name__ == "__main__":
     connection = connectToDatabase("../ikon.db")
     remove_parenthesis_from_names(connection)
@@ -253,12 +326,17 @@ if __name__ == "__main__":
     split_artist_entries_with_multiple_artist_names(connection)
     delete_rows_starts_with_A_or_AZ_but_A_FEHER_VERA(connection)
     remove_frequent_indicatives(connection)
+    tag_suspicous(connection)
+    delete_suspicious(connection)
+    connection.execute("DELETE FROM ARTISTS WHERE name LIKE 'és mások...';")
     connection.commit()
+
+
 
     # clean
     # művész, író, költő, képzőnűvész, művészeti író, ***díjas építést
 
-    for variants in [v for v in find_variants(connection) if len(v[0][1].split(" "))>1]:
+    for variants in find_variants(connection):
         for a in variants:
             print("-", a[1])
         print()
@@ -269,10 +347,6 @@ if __name__ == "__main__":
         #     print(variants[1:])
         #     print()
 
-    # for a in select_artists_where_name_like(connection, "%  %"):
-    #     e = select_exhibitions_of_artist(connection, a)
-    #     print(a[1], "      ", e[0][1])
 
-    def delete_suspicous(connection):
 
 

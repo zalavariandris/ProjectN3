@@ -34,7 +34,8 @@ def init_database():
 
     sql_create_artists_table = """CREATE TABLE IF NOT EXISTS artists (
         id integer PRIMARY KEY,
-        name text NOT NULL
+        name text NOT NULL,
+        suspicious text
     );"""
 
     sql_create_galleries_table = """CREATE TABLE IF NOT EXISTS galleries (

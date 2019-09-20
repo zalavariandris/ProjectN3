@@ -1,0 +1,639 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+            
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>ikOn -- A képzőművészeti élet eseményei</title>
+
+        <meta property="og:url"         content="https://ikon.hu/archiv/search" />
+        <meta property="og:title"       content="ikOn -- A képzőművészeti élet eseményei" />
+        <meta property="og:description" content="Az ikOn egy indulása óta megszakítások nélkül működő online szolgáltatás, melynek fő célja, hogy a képzőművészeti események szervezésében, összehangolásában egyedülálló, rugalmas segítséget nyújtson az intézményeknek. Emellett feladatának tekinti a szakma és az érdeklődő nagyközönség tájékoztatását a képzőművészeti élet eseményeiről az ikOn honlapján és az ikOn levelezőrendszerén keresztül." />
+        <meta property="og:image"       content="https://ikon.hu/public/icons/og.image.ikon.png" />
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="shortcut icon" type="image/png" href="/public/images/favicon.png">
+
+        <script src="/public/js/jquery-1.11.0.min.js"></script>
+
+        <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/public/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/public/css/jquery-ui.css">         <link rel="stylesheet" href="/public/css/select2.min.css">
+
+            <link rel="stylesheet" media="screen" href="/public/stylesheets/ikon-default.css">
+
+        <script src="/public/js/bootstrap.min.js"></script>
+        <script src="/public/js/jquery-ui.min.js"></script> 
+        <script>
+    var positionSortmenu = null;
+
+    var positionMenu = function(menuId, linkId) {
+        $("#"+menuId).css({
+            position: "absolute",
+            top: ($("#"+linkId).offset().top+27), left: $("#"+linkId).offset().left,
+            width: $("#"+linkId).outerWidth()
+        }).appendTo('body');
+    }
+
+    var menuInit = function(menuId, linkId) {
+        $("#"+linkId).hover(
+                function() {
+                    positionMenu(menuId, linkId);
+                    $("#"+menuId).show();
+                },
+                function() {
+                    $("#"+menuId).hide();
+                }
+        );
+        $("#"+menuId).hover(
+                function(){
+                    $("#"+menuId).show();
+                },
+                function(){
+                    $("#"+menuId).hide();
+                }
+        );
+
+    }
+
+    $(document).ready(function(){
+//        menuInit("sortmenu", "sortlink");
+        menuInit("collapse-menu", "hamburger");
+    });
+</script>
+
+ 
+        <link href="/public/stylesheets/../less/ikon.less" rel="stylesheet" type="text/css" charset="utf-8"></link>
+
+                
+        
+        		<script src="/public/javascripts/jquery.editinplace.packed.js" type="text/javascript" charset="utf-8"></script>
+    	        <script src="/public/javascripts/select2.min.js"></script>
+        <script src="/public/javascripts/i18n/hu.js"></script>
+    </head>
+    <body class="">
+	<div id="mask"></div>
+        
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="hidden-xs hidden-sm col-md-1 col-lg-1 head1 cell1">
+            &nbsp;
+        </div>
+        <div class="hidden-xs col-sm-12 col-md-11 col-lg-11 head1 banner">
+                        <a href='bannerstop/ikOn18.jpg' alt='18 �ves lett az ikOn' target='_blank'><img src='bannerstop/ikOn18-banner-top.jpg' class='img-responsive'></a>
+        </div>
+    </div>
+    <div class="row head2row">
+        <div class="col-xs-4 col-md-3 head2 icon">
+            <a href="/artroll"><img src="/public/icons/ikon2017logo.png" class="img-responsive"></a>
+        </div>
+        <div class="col-xs-8 col-md-9 head2 links">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 link1"><a href="/artroll">artRoll</a></div>
+                <div class="col-xs-3 col-sm-4 link2"><a href="/galeria/artakkord">artAkkord</a></div>
+                <div class="col-xs-5 col-sm-4 link2 text-right">
+                    <a href="#" id="hamburger" class="btn btn-xs visible-xs" >
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row head-mini-row">
+                <div class="col-xs-4 col-sm-4 head-mini">aktuális események</div>
+                <div class="col-xs-3 col-sm-4 head-mini">esemény feltöltés</div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+    <div id="collapse-menu" >
+        <ul>
+            <li><a href="/application/login">belépés</a></li>
+            <li><a href="/naptar">naptár</a></li>
+            <li><a href="/about">az ikOn-ról</a></li>
+            <li><a href="/help">help</a></li>
+            <li><a href="mailto:ikon@ikon.hu">e-mail</a></li>
+            <li><a href="/artkomm">artKomm</a></li>
+            <li><a href="/archiv">archívum</a></li>
+            <li><a href="/media">médiaajánlat</a></li>
+            <li><a href="/partnerek">partnerek</a></li>
+            <li><a href="/projektek">projektek</a></li>
+                    </ul>
+    </div>
+    <div class="row">
+        <div class="hidden-xs col-sm-2 col-md-2 col-lg-1 nopad">
+            <div class="height2x login">
+                                                    <a href="/application/login" class="vcenter">belépés</a>
+                
+            </div>
+            <div class="plusmenu">
+                <a href="/horizont">horizont</a>
+                <a href="/naptar">naptár</a>
+                <a href="/about">az ikOn-ról</a>
+                <a href="/help">help</a>
+                <a href="mailto:ikon@ikon.hu">e-mail</a>
+                <a href="/artkomm">artKomm</a>
+                <a href="/archiv">archívum</a>
+                <a href="/media">médiaajánlat</a>
+                <a href="/partnerek">partnerek</a>
+                <a href="/projektek">projektek</a>
+                                
+
+
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 nopad">
+                    <div class="col-xs-12 hidden-xs nopad height1x centermenu-top selected-none">&nbsp;</div>
+            <div class="col-xs-12 nopad centermenu-bottom"><div class="one">archívum</div></div>
+                            <div class="col-xs-12 centercol">
+
+			
+<form action="/archiv/search" method="post" accept-charset="utf-8" enctype="multipart/form-data" id="archv"  id="archv"><input type="hidden" name="authenticityToken" value="7577090b629b6ed00d7cb2a412428b614ee967a6">
+    <div class="col-xs-12 top-div">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+                <b>intézmény:</b>
+            </div>
+            <div class="col-xs-9 nopad ">
+                <input type="text" size="40" maxlength="255" value="" name="intezmeny">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+                <b>személy:</b>
+            </div>
+            <div class="col-xs-9 nopad ">
+                <input type="text" size="40" maxlength="255" value="" name="szemely">
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+                <b>esemény címe:</b>
+            </div>
+            <div class="col-xs-9 nopad ">
+                <input type="text" size="40" maxlength="255" value="" name="cim">
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+                <b>megnyitó dátuma tól:</b>
+            </div>
+            <div class="col-xs-9 nopad ">
+                <select name="opening_tol_y">
+                                        <option  selected="" >1999</option>
+                                        <option >2000</option>
+                                        <option >2001</option>
+                                        <option >2002</option>
+                                        <option >2003</option>
+                                        <option >2004</option>
+                                        <option >2005</option>
+                                        <option >2006</option>
+                                        <option >2007</option>
+                                        <option >2008</option>
+                                        <option >2009</option>
+                                        <option >2010</option>
+                                        <option >2011</option>
+                                        <option >2012</option>
+                                        <option >2013</option>
+                                        <option >2014</option>
+                                        <option >2015</option>
+                                        <option >2016</option>
+                                        <option >2017</option>
+                                        <option >2018</option>
+                                        <option >2019</option>
+                                        <option >2020</option>
+                                        <option >2021</option>
+                                        <option >2022</option>
+                                    </select>
+                <select name="opening_tol_m">
+                                        <option  selected="" >01</option>
+                                        <option >02</option>
+                                        <option >03</option>
+                                        <option >04</option>
+                                        <option >05</option>
+                                        <option >06</option>
+                                        <option >07</option>
+                                        <option >08</option>
+                                        <option >09</option>
+                                        <option >10</option>
+                                        <option >11</option>
+                                        <option >12</option>
+                                    </select>
+                <select name="opening_tol_d">
+                                        <option  selected="" >01</option>
+                                        <option >02</option>
+                                        <option >03</option>
+                                        <option >04</option>
+                                        <option >05</option>
+                                        <option >06</option>
+                                        <option >07</option>
+                                        <option >08</option>
+                                        <option >09</option>
+                                        <option >10</option>
+                                        <option >11</option>
+                                        <option >12</option>
+                                        <option >13</option>
+                                        <option >14</option>
+                                        <option >15</option>
+                                        <option >16</option>
+                                        <option >17</option>
+                                        <option >18</option>
+                                        <option >19</option>
+                                        <option >20</option>
+                                        <option >21</option>
+                                        <option >22</option>
+                                        <option >23</option>
+                                        <option >24</option>
+                                        <option >25</option>
+                                        <option >26</option>
+                                        <option >27</option>
+                                        <option >28</option>
+                                        <option >29</option>
+                                        <option >30</option>
+                                        <option >31</option>
+                                    </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+                <b>megnyitó dátuma ig:</b>
+            </div>
+            <div class="col-xs-9 nopad ">
+                <select name="opening_ig_y">
+                                        <option >1999</option>
+                                        <option >2000</option>
+                                        <option >2001</option>
+                                        <option >2002</option>
+                                        <option >2003</option>
+                                        <option >2004</option>
+                                        <option >2005</option>
+                                        <option >2006</option>
+                                        <option >2007</option>
+                                        <option >2008</option>
+                                        <option >2009</option>
+                                        <option >2010</option>
+                                        <option >2011</option>
+                                        <option >2012</option>
+                                        <option >2013</option>
+                                        <option >2014</option>
+                                        <option >2015</option>
+                                        <option >2016</option>
+                                        <option >2017</option>
+                                        <option >2018</option>
+                                        <option >2019</option>
+                                        <option >2020</option>
+                                        <option >2021</option>
+                                        <option  selected="" >2022</option>
+                                    </select>
+                <select name="opening_ig_m">
+                                        <option >01</option>
+                                        <option >02</option>
+                                        <option >03</option>
+                                        <option >04</option>
+                                        <option >05</option>
+                                        <option >06</option>
+                                        <option >07</option>
+                                        <option >08</option>
+                                        <option >09</option>
+                                        <option >10</option>
+                                        <option >11</option>
+                                        <option  selected="" >12</option>
+                                    </select>
+                <select name="opening_ig_d">
+                                        <option >01</option>
+                                        <option >02</option>
+                                        <option >03</option>
+                                        <option >04</option>
+                                        <option >05</option>
+                                        <option >06</option>
+                                        <option >07</option>
+                                        <option >08</option>
+                                        <option >09</option>
+                                        <option >10</option>
+                                        <option >11</option>
+                                        <option >12</option>
+                                        <option >13</option>
+                                        <option >14</option>
+                                        <option >15</option>
+                                        <option >16</option>
+                                        <option >17</option>
+                                        <option >18</option>
+                                        <option >19</option>
+                                        <option >20</option>
+                                        <option >21</option>
+                                        <option >22</option>
+                                        <option >23</option>
+                                        <option >24</option>
+                                        <option >25</option>
+                                        <option >26</option>
+                                        <option >27</option>
+                                        <option >28</option>
+                                        <option >29</option>
+                                        <option >30</option>
+                                        <option  selected="" >31</option>
+                                    </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+                <b>zárás dátuma tól:</b>
+            </div>
+            <div class="col-xs-9 nopad ">
+                <select name="open_until_tol_y">
+                                        <option  selected="" >1999</option>
+                                        <option >2000</option>
+                                        <option >2001</option>
+                                        <option >2002</option>
+                                        <option >2003</option>
+                                        <option >2004</option>
+                                        <option >2005</option>
+                                        <option >2006</option>
+                                        <option >2007</option>
+                                        <option >2008</option>
+                                        <option >2009</option>
+                                        <option >2010</option>
+                                        <option >2011</option>
+                                        <option >2012</option>
+                                        <option >2013</option>
+                                        <option >2014</option>
+                                        <option >2015</option>
+                                        <option >2016</option>
+                                        <option >2017</option>
+                                        <option >2018</option>
+                                        <option >2019</option>
+                                        <option >2020</option>
+                                        <option >2021</option>
+                                        <option >2022</option>
+                                    </select>
+                <select name="open_until_tol_m">
+                                        <option  selected="" >01</option>
+                                        <option >02</option>
+                                        <option >03</option>
+                                        <option >04</option>
+                                        <option >05</option>
+                                        <option >06</option>
+                                        <option >07</option>
+                                        <option >08</option>
+                                        <option >09</option>
+                                        <option >10</option>
+                                        <option >11</option>
+                                        <option >12</option>
+                                    </select>
+                <select name="open_until_tol_d">
+                                        <option  selected="" >01</option>
+                                        <option >02</option>
+                                        <option >03</option>
+                                        <option >04</option>
+                                        <option >05</option>
+                                        <option >06</option>
+                                        <option >07</option>
+                                        <option >08</option>
+                                        <option >09</option>
+                                        <option >10</option>
+                                        <option >11</option>
+                                        <option >12</option>
+                                        <option >13</option>
+                                        <option >14</option>
+                                        <option >15</option>
+                                        <option >16</option>
+                                        <option >17</option>
+                                        <option >18</option>
+                                        <option >19</option>
+                                        <option >20</option>
+                                        <option >21</option>
+                                        <option >22</option>
+                                        <option >23</option>
+                                        <option >24</option>
+                                        <option >25</option>
+                                        <option >26</option>
+                                        <option >27</option>
+                                        <option >28</option>
+                                        <option >29</option>
+                                        <option >30</option>
+                                        <option >31</option>
+                                    </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+                <b>zárás dátuma ig:</b>
+            </div>
+            <div class="col-xs-9 nopad ">
+                <select name="open_until_ig_y">
+                                        <option >1999</option>
+                                        <option >2000</option>
+                                        <option >2001</option>
+                                        <option >2002</option>
+                                        <option >2003</option>
+                                        <option >2004</option>
+                                        <option >2005</option>
+                                        <option >2006</option>
+                                        <option >2007</option>
+                                        <option >2008</option>
+                                        <option >2009</option>
+                                        <option >2010</option>
+                                        <option >2011</option>
+                                        <option >2012</option>
+                                        <option >2013</option>
+                                        <option >2014</option>
+                                        <option >2015</option>
+                                        <option >2016</option>
+                                        <option >2017</option>
+                                        <option >2018</option>
+                                        <option >2019</option>
+                                        <option >2020</option>
+                                        <option >2021</option>
+                                        <option  selected="" >2022</option>
+                                    </select>
+                <select name="open_until_ig_m">
+                                        <option >01</option>
+                                        <option >02</option>
+                                        <option >03</option>
+                                        <option >04</option>
+                                        <option >05</option>
+                                        <option >06</option>
+                                        <option >07</option>
+                                        <option >08</option>
+                                        <option >09</option>
+                                        <option >10</option>
+                                        <option >11</option>
+                                        <option  selected="" >12</option>
+                                    </select>
+                <select name="open_until_ig_d">
+                                        <option >01</option>
+                                        <option >02</option>
+                                        <option >03</option>
+                                        <option >04</option>
+                                        <option >05</option>
+                                        <option >06</option>
+                                        <option >07</option>
+                                        <option >08</option>
+                                        <option >09</option>
+                                        <option >10</option>
+                                        <option >11</option>
+                                        <option >12</option>
+                                        <option >13</option>
+                                        <option >14</option>
+                                        <option >15</option>
+                                        <option >16</option>
+                                        <option >17</option>
+                                        <option >18</option>
+                                        <option >19</option>
+                                        <option >20</option>
+                                        <option >21</option>
+                                        <option >22</option>
+                                        <option >23</option>
+                                        <option >24</option>
+                                        <option >25</option>
+                                        <option >26</option>
+                                        <option >27</option>
+                                        <option >28</option>
+                                        <option >29</option>
+                                        <option >30</option>
+                                        <option  selected="" >31</option>
+                                    </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+                <b>rendezés:</b>
+            </div>
+            <div class="col-xs-9 nopad ">
+                <select name="sortOrder">
+                    <option value="galerie.name" selected="">kiállítóhely </option>
+                    <option value="exhibitor">művész/ek </option>
+                    <option value="title">a kiállítás címe </option>
+                    <option value="opening">megnyitó </option>
+                    <option value="curator">kurátor </option>
+                    <option value="opener">a kiállítást megnyitja </option>
+                    <option value="open_until">zárás </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-3 nopad right_text">
+            </div>
+            <div class="col-xs-9 nopad ">
+                <INPUT TYPE="submit" NAME="search" VALUE="Keresés" /><input type="submit"  NAME="cancel" VALUE="Mégsem" />
+            </div>
+        </div>
+    </div>
+
+
+</form>
+			</div>
+        </div>
+        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3 rightcol">
+            <div class="row">
+                <div class="col-xs-6 col-sm-12 search">
+                    <form id="search" name="serarch"  action="/artroll/index">
+                    <p>Keresés:</p>
+                    <input name="search_string" type="text" id="keresés" value="" class="form-control" />
+                    <select name='search' class="form-control">
+                        <option  value='n'>Név</option>
+                        <option  value='g'>Intézmény</option>
+                        <option  value='e'>Esemény</option>
+                    </select>
+                    <button type="submit" class="btn btn-default btn-xs">OK</button>
+                    </form>
+                </div>
+                <div class="col-xs-6 col-sm-12 search">
+                    <form action="/artkomm/feliratkozas" method="post" accept-charset="utf-8" enctype="multipart/form-data" id="hirlevelfel"  id="hirlevelfel"><input type="hidden" name="authenticityToken" value="7577090b629b6ed00d7cb2a412428b614ee967a6">
+                    <p>Feliratkozás az artKomm hírlevélre:</p>
+                    <input class="form-control" type='text' name='artkomm_email' placeholder="@" value="">
+                    <input class="form-control" type='text' name='artkomm_nev' placeholder="név" value="">
+                    <input type="hidden" name="artkomm_fel" value="1">
+                    <input type="hidden" name="submitfromindex" value="1">
+
+                    <button type="submit" class="btn btn-default btn-xs" value="Elküld">OK</button>
+                    
+</form>                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-xs-offset-3 col-sm-offset-0 col-sm-12 col-md-12 col-lg-5 advice">
+                    <div class="title">Jótanács</div>
+                    <div class="desc"><p style="text-align: center;">Ha az <a href="http://www.ikon.hu"><strong>ikOn </strong></a>műk&ouml;d&eacute;s&eacute;ben b&aacute;rmilyen probl&eacute;m&aacute;t &eacute;szlel az <a href="http://www.ikon.hu"><strong>ikOn 4.0</strong></a>-ra val&oacute; &aacute;t&aacute;ll&aacute;s k&ouml;vetkezt&eacute;ben, k&eacute;rj&uuml;k azonnal jelezze az <a href="mailto: ikon@ikon.hu">ikon@ikon.hu</a> e-mail c&iacute;men!</p>
+<p style="text-align: center;">A probl&eacute;m&aacute;kat igyeksz&uuml;nk a legr&ouml;videbb idő alatt kijav&iacute;tani.</p></div>
+                </div>
+                <div class="col-xs-offset-0 col-xs-12 col-sm-12 col-md-12 col-lg-7 banners">
+                                        <div class='banner'><a href='https://www.isbnbooks.hu/' target='_blank'><img alt='ISBN Könyv+Galéria' src='bannersright/isbn-konyv-galeria-right-banner.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://studio.c3.hu' target='_blank'><img alt='FKSE' src='bannersright/fkse.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://hvg.hu/hvgmuerto.aspx' target='_blank'><img alt='Műértő' src='bannersright/ikon-bann-rightsmall-muerto.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.inexhibition.hu' target='_blank'><img alt='INEX' src='bannersright/ikon-bann-rightsmall-inex.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://exindex.hu/' target='_blank'><img alt='Exindex' src='bannersright/ikon-bann-rightsmall-exinde.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://balkon.art/home/' target='_blank'><img alt='BALKON' src='bannersright/balkon-right.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.ujmuveszet.hu' target='_blank'><img alt='Új Művészet' src='bannersright/ujmuveszet-right.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://fenesztra.blog.hu/' target='_blank'><img alt='Fenesztra' src='bannersright/ikon-bann-rightsmall-fenesztra.jpg' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.irokboltja.hu/' target='_blank'><img alt='Írók Boltja - online könyvesbolt' src='bannersright/ikon-bann-rightsmall-02.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.muut.hu' target='_blank'><img alt='MŰút' src='bannersright/ikon-bann-rightsmall-03.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.facebook.com/pages/ikOn-A-kepzomuveszeti-elet-esemenyei/132487583089' target='_blank'><img alt='Csatlakozz az ikOn rajongóihoz!' src='bannersright/ikon-facebook-01.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://artportal.hu/' target='_blank'><img alt='artportal' src='bannersright/ikon-bann-rightsmall-artportal.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://artdetektor.blogspot.hu/' target='_blank'><img alt='ArtDetektor' src='bannersright/ikon-bann-rightsmall-artdetektor.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://ffs.hu/' target='_blank'><img alt='FFS' src='bannersright/ikon-bann-rightsmall-FFS.jpg' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://tranzitblog.hu' target='_blank'><img alt='Tranzitblog' src='bannersright/tranzitblog.gif' class='img-responsive'></a></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-lg-8" style="margin-bottom: 15px;">
+                <a href='http://www.isbnbooks.hu/' target='_blank'><img alt='ISBN K�nyv+Gal�ria' src='bannersbottom/ISBN_banner.gif' class='img-responsive'></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 footer">
+            <div class="row">
+                <div class="col-xs-12">
+                    Technikai jellegű kéréseivel, kérdéseivel, észrevételeivel kapcsolatban írjon a ikon@ikon.hu címre!
+                    <br>Copyright (c) 1999 - 2019. Koronczi Endre - <a href="http://www.bohlconsulting.com" target="_blank">Bohl Software Consulting Kft.</a> Minden jog fenntartva
+                    <br>Az ikOn a Nemzeti Kulturális Alap támogatásával működik.  NKA
+                    <br>Az ikOn név és az ikOn logo a szolgáltatás védjegye. Az ikOn oldalain a felhasználók által elhelyezett információk tartalmáért a szerzők és az üzemeltetők nem vállalnak felelősséget.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 plusmenu">
+                    <a href="/artroll">artRoll</a>
+                    <a href="/archiv">archívum</a>
+                    <a href="/galeria/artakkord">artAkkord</a>
+                    <a href="/artkomm">artKomm</a>
+                    <a href="/naptar">naptár</a>
+                    <a href="/about">az ikOn-ról</a>
+                    <a href="mailto:ikon@ikon.hu">e-mail</a>
+                    <a href="/help">help</a>
+                    <a href="/media">médiaajánlat</a>
+                    <a href="/partnerek">partnerek</a>
+                    <a href="/projektek">projektek</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!--</body>-->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=igyodi"></script>
+    </body>
+</html>

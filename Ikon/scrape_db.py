@@ -1,9 +1,7 @@
-
-
-def get_ikon_page(date_from, date_to):
+def request_ikon_archive(date_from, date_to):
     import requests
-    r = requests.post("http://ikon.hu/archiv/search", data={
-        "authenticityToken":"161b8648729c861de486bc5fc9106f47f3a70293", 
+    formdata = {
+        "authenticityToken":"08bcd4db7f3ea318e51a0133d2aa9a16afe408c5", 
         "opening_tol_y"    : "{}".format(date_from.year),
         "opening_tol_m"    : "{}".format(date_from.month),
         "opening_tol_d"    : "{}".format(date_from.day),
@@ -18,22 +16,30 @@ def get_ikon_page(date_from, date_to):
         "open_until_ig_d"  : "31",
         "sortOrder"        : "opening",
         "search"           : "Keresés"
-        })
-    return r.text
+    }
+    print(formdata)
+    result = requests.post("http://ikon.hu/archiv/search", data=formdata)
+    return result.text
 
-# Query all weeks and save html to Disk
-def get_pages_from_http():
-    import time
-    DATE_FROM = datetime.date(2017,8,10)+datetime.timedelta(days=7)
+def get_pages_from_http(dirpath):
+    """
+    Query all weeks and save html to Disk
+    """
+    import os
+    import datetime
+    DATE_FROM = datetime.date(2014,1,1)+datetime.timedelta(days=7)
     DATE_TO =   datetime.date(2018, 11, 16)
     current_date = DATE_FROM
     while(current_date<DATE_TO):
-        page = get_ikon_page(current_date, current_date+datetime.timedelta(days=6))
+        page = request_ikon_archive(current_date, current_date+datetime.timedelta(days=6))
         current_date+=datetime.timedelta(days=7)
 
         # save page to disk
         filename = "IkOn{0:%Y%m%d}-{1:%Y%m%d}.html".format(current_date, current_date+datetime.timedelta(days=6))
-        with open(filename, 'w', encoding='utf8') as html_file:
+        filepath = os.path.join(dirpath, filename) 
+        filepath = os.path.normpath(filepath)  
+
+        with open(filepath, 'w', encoding='utf8') as html_file:
             html_file.write(page)
         
 def get_filepaths_on_disk(dirpath):
@@ -66,7 +72,10 @@ def parse_html_pages(pages):
         return datetime.date(year, month, day)
 
     def parse_title(elem):
-        return elem.find("a", class_="title").text
+        try:
+            return elem.find("a", class_="title").text
+        except Exception as err:
+            raise Exception("Error occured while parsing title of element", elem)
 
     def parse_gallery(elem):
         return elem.find("a", class_="gallery").text
@@ -93,9 +102,9 @@ def parse_html_pages(pages):
             try:
                 row = parse_row(elem)
                 data.append(row)
-            except AttributeError as err:
+            except Exception as err:
                 print(err)
-                
+
         return data
 
     print("parsing {} html pages...".format(len(pages)))
@@ -106,9 +115,15 @@ def parse_html_pages(pages):
     return data;
 
 if __name__=="__main__":
-    filepaths = list(get_filepaths_on_disk("./tmp"))[:1]
-    pages = list(read_files_from_disk(filepaths))
-    data = parse_html_pages(pages)
+    import datetime
+    # page = request_ikon_archive(datetime.date(2018,1,1), datetime.date(2018,2,1))
+    # parse_html_pages([page])
 
-    for row in data:
-        print("- {}, {}, {}".format(row['title'], row['date'], row['gallery']))
+    # get_pages_from_http("./tmp")
+
+    # filepaths = list(get_filepaths_on_disk("./tmp"))[:1]
+    # pages = list(read_files_from_disk(filepaths))
+    # data = parse_html_pages(pages)
+
+    # for row in data:
+    #     print("- {}, {}, {}".format(row['title'], row['date'], row['gallery']))
