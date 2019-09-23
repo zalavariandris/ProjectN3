@@ -1,19 +1,12 @@
-var stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-stats.dom.style.left = '';
-stats.dom.style.right = '0px';
-stats.dom.style.top = '0px';
-document.body.appendChild( stats.dom );
-
-/*
- * Setup threejs scene
- */
 var renderer;
 var camera;
 var controls;
 var scene;
 var sun;
 function init(){
+    /*
+     * Setup threejs scene
+     */
     renderer = new THREE.WebGLRenderer({antialias: false, depth: true});
     renderer.setClearColor("black", 1.0)
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -60,18 +53,18 @@ class GraphObject{
             let s = nodes[edge['source']];
             let t = nodes[edge['target']];
 
-            vertices[e*6+0] = s['position'][0];
-            vertices[e*6+1] = s['position'][1];
-            vertices[e*6+2] = s['position'][2];
+            vertices[e*6+0] = s['pos'][0];
+            vertices[e*6+1] = s['pos'][1];
+            vertices[e*6+2] = s['pos'][2];
 
-            vertices[e*6+3+0] = t['position'][0];
-            vertices[e*6+3+1] = t['position'][1];
-            vertices[e*6+3+2] = t['position'][2];
+            vertices[e*6+3+0] = t['pos'][0];
+            vertices[e*6+3+1] = t['pos'][1];
+            vertices[e*6+3+2] = t['pos'][2];
 
             // Color edges by direction
-            let r = Math.abs(s['position'][0] - t['position'][0]);
-            let g = Math.abs(s['position'][1] - t['position'][1]);
-            let b = Math.abs(s['position'][2] - t['position'][2]);
+            let r = Math.abs(s['pos'][0] - t['pos'][0]);
+            let g = Math.abs(s['pos'][1] - t['pos'][1]);
+            let b = Math.abs(s['pos'][2] - t['pos'][2]);
             let length = Math.sqrt(r*r+g*g+b*b);
             r/=length;
             g/=length;
@@ -79,32 +72,8 @@ class GraphObject{
             colors[e*6+0] = colors[e*6+3+0] = r*255;
             colors[e*6+1] = colors[e*6+3+1] = b*255;
             colors[e*6+2] = colors[e*6+3+2] = g*255;
-
-            //// Color edges by Node
-            // let source_color = new THREE.Color(s['color']);
-            // colors[e*6+0] = source_color.r*255;
-            // colors[e*6+1] = source_color.g*255;
-            // colors[e*6+2] = source_color.b*255;
-
-            // let target_color = new THREE.Color(t['color']);
-            // colors[e*6+3+0] = target_color.r*255;
-            // colors[e*6+3+1] = target_color.g*255;
-            // colors[e*6+3+2] = target_color.b*255;
-
-            // // Color edges random
-            // for(let j=0; j<6; j++)
-            //     colors[e*6+j] = Math.random()*255;
-
-            // colors[e*6+0] = source_color.r*255;
-            // colors[e*6+1] = source_color.g*255;
-            // colors[e*6+2] = source_color.b*255;
         }
         geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
-
-        // for(var c=0; c<colors.length; c++){
-        //     var scale = 255;
-        //     colors[c] = Math.random()*scale;
-        // }
         geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3, true ) );
 
         // links
@@ -162,7 +131,7 @@ class GraphObject{
                 var o = new THREE.Object3D()
                 o.add(sprite);
 
-                sprite.position.set(nodes[n]['position'][0], nodes[n]['position'][1], nodes[n]['position'][2]);
+                sprite.position.set(nodes[n]['pos'][0], nodes[n]['pos'][1], nodes[n]['pos'][2]);
                 var aspect = canvas.width/canvas.height;
                 sprite.center = new THREE.Vector2(1,0);
                 sprite.scale.set(textHeight * aspect, textHeight);
@@ -183,7 +152,7 @@ class GraphObject{
 
             for(let n in nodes){
                 let i = nodes[n]['idx'];
-                let pos = nodes[n]['position'];
+                let pos = nodes[n]['pos'];
                 vertices[i*3+0] = pos[0];
                 vertices[i*3+1] = pos[1];
                 vertices[i*3+2] = pos[2];
@@ -222,7 +191,7 @@ class GraphObject{
             });
 
             let mesh = new THREE.Mesh(geomety, material);        
-            mesh.position.set(nodes[n]['position'][0], nodes[n]['position'][1], nodes[n]['position'][2])
+            mesh.position.set(nodes[n]['pos'][0], nodes[n]['pos'][1], nodes[n]['pos'][2])
             mesh.scale.set(nodes[n]['size'], nodes[n]['size'], nodes[n]['size'])
             spheres_obj.add(mesh);
         }
@@ -243,8 +212,8 @@ class GraphObject{
             let t = nodes[edge['target']];
 
 
-            let s_vec = new THREE.Vector3(s.position[0], s.position[2], s.position[2]);
-            let t_vec = new THREE.Vector3(t.position[0], t.position[2], t.position[2]);
+            let s_vec = new THREE.Vector3(s.pos[0], s.pos[2], s.pos[2]);
+            let t_vec = new THREE.Vector3(t.pos[0], t.pos[2], t.pos[2]);
 
             let distance = s_vec.distanceTo(t_vec);
             let material = new THREE.MeshToonMaterial({
@@ -253,8 +222,8 @@ class GraphObject{
             let tube = new THREE.Mesh(geometry, material);
             tube.scale.set(1, 1, distance);
 
-            tube.position.set(s.position[0], s.position[1], s.position[2]);
-            tube.lookAt(t.position[0], t.position[1], t.position[2] );
+            tube.position.set(s.pos[0], s.pos[1], s.pos[2]);
+            tube.lookAt(t.pos[0], t.pos[1], t.pos[2] );
             tube.receiveShadow = true;
             tube.castShadow = true;
             tubes.add(tube);
@@ -263,66 +232,6 @@ class GraphObject{
         graph_obj.add(tubes);
     }
 }
-
-/* ==================
-   Read DATA to MODEL
-   ==================*/
-/*
-{
-    'nodes': {
-        'key': {
-            'idx': 0
-            'position': [],
-            'color': [],
-            'label': [],
-            'size': 1
-        }
-    }, 
-    'links': [
-        {
-            'source': src,
-            'target': dst,
-            'color': []
-        }
-    ]
-}
-*/
-function build_graph(){
-    var graph;
-    graph = {'nodes': {}, 'edges': []};
-
-    // nodes
-    Object.keys(data.nodes).forEach(function(n, i){
-        let color = [100, 100, 100];
-        if(data.nodes[n]['type']=="Artist"){
-            color = "grey";
-        }else if(data.nodes[n]['type']=="Exhibition"){
-            color = "grey";
-        }else {
-            color = "red";
-        }
-
-        graph['nodes'][n] = {
-            'idx': i,
-            'position': data.nodes[n].pos,
-            'color': color,
-            'label': data.nodes[n]['label'],
-            'size': 1
-        }
-    });
-
-    //edges
-    for(let e=0; e<data['edges'].length; e++){
-            graph['edges'].push({
-            'source': data['edges'][e]['source'],
-            'target': data['edges'][e]['target'],
-            'color': undefined
-        });
-    }
-
-    return graph;
-}
-
 
 /* =======
    HELPERS
@@ -351,10 +260,23 @@ function goto(name){
 /* ======
  * INIT
    ======*/
+   // stats
+var stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+stats.dom.style.left = '';
+stats.dom.style.right = '0px';
+stats.dom.style.top = '0px';
+document.body.appendChild( stats.dom );
+
 init()
-var graph = build_graph()
-graphObject = new GraphObject(graph)
-scene.add(graphObject.graph_obj);
+
+fetch("./resources/ikon_graph.json")
+.then((resp)=> resp.json())
+.then(function(G){
+    graphObject = new GraphObject(G)
+    scene.add(graphObject.graph_obj);
+});
+
 
 window.addEventListener( 'resize', onWindowResize, false );
 function onWindowResize(){
@@ -382,3 +304,6 @@ function animate() {
     stats.end();
 }
 animate();
+
+
+
