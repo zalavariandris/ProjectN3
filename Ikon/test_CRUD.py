@@ -78,6 +78,16 @@ class TestCRUD(unittest.TestCase):
         row = connection.execute("SELECT name FROM artists WHERE name = 'peti';").fetchone()
         self.assertEqual(row, None)
 
+    def test_delete_artists(self):
+        connection.execute("INSERT INTO artists (name) VALUES (?);", ("andris", ))
+        connection.execute("INSERT INTO artists (name) VALUES (?);", ("judit", ))
+        table = connection.execute("SELECT id, name FROM artists WHERE name = 'judit' OR name = 'andris';").fetchall()
+
+        delete_artists_where_id_in(connection, [row[0] for row in table])
+        row = connection.execute("SELECT name FROM artists WHERE name = 'andris';").fetchone()
+        self.assertIsNone(row)
+        row = connection.execute("SELECT name FROM artists WHERE name = 'judit';").fetchone()
+        self.assertIsNone(row)
 
     def test_select_gallery(self):
         cursor = connection.cursor()

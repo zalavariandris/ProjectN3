@@ -1,4 +1,22 @@
 """
+CONNECT
+"""
+def connectToDatabase(filepath)->'sqlite3.Connection':
+    import sqlite3
+    from sqlite3 import Error
+
+    connection = sqlite3.connect(filepath)
+
+
+    import re
+    def regexp(y, x, search=re.search):
+        return 1 if search(y, x) else 0
+
+    connection.create_function('regexp', 2, regexp)
+
+    return connection
+
+"""
 INSERT SELECT UPDATE DELETE
 """
 # INSERT
@@ -30,37 +48,15 @@ def insert_artist(connection, name):
     cursor.execute(sql, (name,))
     return cursor.lastrowid
 
-def delete_exhibition_where_id_is(connection, ID):
-    sql = '''
-    DELETE FROM exhibitions
-    WHERE id = ?;
-    '''
-    connection.execute(sql, (ID,))
-
-def delete_gallery_where_id_is(connection, ID):
-    sql = '''
-    DELETE FROM galleries
-    WHERE id = ?;
-    '''
-    connection.execute(sql, (ID,))
-
-def delete_artist_where_id_is(connection, ID):
-    sql = '''
-    DELETE FROM artists
-    WHERE id = ?;
-    '''
-    connection.execute(sql, (ID,))
-
-def update_artist_where_id_is(connection, ID, name):
-    sql =  '''
-    UPDATE artists
-    SET name = '{val}'
-    WHERE id={ID};
-    '''
-    sql = sql.replace('{val}', name).replace("{ID}", str(ID))
-    connection.execute(sql)
-
 # SELECT
+def select_exhibitions(connection):
+    sql = '''
+    SELECT id, title, date, html
+    FROM exhibitions
+    ORDER BY title ASC;
+    '''
+
+    return connection.execute(sql).fetchall()
 
 def select_exhibition_where_id_is(connection, ID):
     sql = '''
@@ -81,6 +77,47 @@ def select_exhibitions_where_title_like(connection, text):
     table = connection.execute(sql);
     for row in table:
         yield row
+
+def select_gallery_of_exhibition(connection, exhibition):
+    sql = '''
+    SELECT g.id, g.name
+    FROM exhibitions e
+    JOIN galleries g ON g.id = e.gallery_id
+    WHERE e.id = ?;
+    '''
+
+    return connection.execute(sql, (exhibition[0], )).fetchone()
+
+def select_exhibitions_at_gallery(connection, gallery):
+    sql = '''
+    SELECT g.id, g.name
+    FROM exhibitions e
+    JOIN galleries g ON g.id = e.gallery_id
+    WHERE e.gallery_id IS ?;
+    '''
+
+    return connection.execute(sql, (gallery[0] )).fetchall()
+
+def select_artists(connection):
+    sql = '''
+    SELECT id, name
+    FROM artists
+    ORDER BY name ASC
+    '''
+
+    return connection.execute(sql).fetchall()
+
+def select_artists_with_noexhibitions(connection, count):
+    sql = '''
+    SELECT a.id, a.name, COUNT(ae.artist_id) as No_exhibitions
+    FROM artists_exhibitions ae
+    JOIN artists a ON a.id = ae.artist_id
+    GROUP BY ae.artist_id
+    HAVING No_exhibitions >= ?
+    ORDER BY No_exhibitions DESC;
+    '''
+
+    return connection.execute(sql, (count, ) ).fetchall()
 
 def select_exhibitions_where_artist_is(connection, artist):
     sql = '''
@@ -120,7 +157,6 @@ def select_artists_where_name_like(connection, text):
     for a in connection.execute(sql):
         yield a
 
-# 
 def select_artists_where_name_in(connection, names):
     sql = '''
     SELECT id, name
@@ -132,6 +168,15 @@ def select_artists_where_name_in(connection, names):
     sql = sql.replace("{}", placeholders)
 
     return connection.execute(sql, names).fetchall()
+
+def select_galleries(connection):
+    sql = '''
+    SELECT id, name
+    FROM galleries
+    ORDER BY name ASC
+    '''
+
+    return connection.execute(sql).fetchall()
 
 def select_gallery_where_id_is(connection, ID):
     sql = '''
@@ -161,6 +206,50 @@ def select_gallery_where_name_like(connection, text):
     return connection.execute(sql).fetchall();
 
 
+# UPDATE 
+
+def update_artist_where_id_is(connection, ID, name):
+    sql =  '''
+    UPDATE artists
+    SET name = '{val}'
+    WHERE id={ID};
+    '''
+    sql = sql.replace('{val}', name).replace("{ID}", str(ID))
+    connection.execute(sql)
+
+
+# DELETE
+
+def delete_exhibition_where_id_is(connection, ID):
+    sql = '''
+    DELETE FROM exhibitions
+    WHERE id = ?;
+    '''
+    connection.execute(sql, (ID,))
+
+def delete_gallery_where_id_is(connection, ID):
+    sql = '''
+    DELETE FROM galleries
+    WHERE id = ?;
+    '''
+    connection.execute(sql, (ID,))
+
+def delete_artist_where_id_is(connection, ID):
+    sql = '''
+    DELETE FROM artists
+    WHERE id = ?;
+    '''
+    connection.execute(sql, (ID,))
+
+def delete_artists_where_id_in(connection, ids):
+    sql = '''
+    DELETE FROM artists
+    WHERE id IN ({});
+    '''.format( ",".join(["?"]*len(ids) ) )
+
+    exhibitions = connection.execute(sql, ids)
+   
+
 """
 Relationships
 """
@@ -187,9 +276,16 @@ def select_exhibitions_of_artist(connection, artist):
 
 def select_artists_of_exhibition(connection, exhibition):
     sql='''
-    SELECT ae.artist_id
+    SELECT a.id,a.name
     FROM artists_exhibitions ae 
     INNER JOIN exhibitions e ON e.id == ae.exhibition_id 
+    INNER JOIN artists a ON a.id == ae.artist_id
     WHERE e.id=?;
     '''
+
+    return connection.execute(sql, (exhibition[0],)).fetchall()
+
+# Complex modifications
+def merge_artists(connection, artists):
+    return artist
 

@@ -1,0 +1,674 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+            
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>ikOn -- A képzőművészeti élet eseményei</title>
+
+        <meta property="og:url"         content="http://www.ikon.hu/archiv/search" />
+        <meta property="og:title"       content="ikOn -- A képzőművészeti élet eseményei" />
+        <meta property="og:description" content="Az ikOn egy indulása óta megszakítások nélkül működő online szolgáltatás, melynek fő célja, hogy a képzőművészeti események szervezésében, összehangolásában egyedülálló, rugalmas segítséget nyújtson az intézményeknek. Emellett feladatának tekinti a szakma és az érdeklődő nagyközönség tájékoztatását a képzőművészeti élet eseményeiről az ikOn honlapján és az ikOn levelezőrendszerén keresztül." />
+        <meta property="og:image"       content="http://www.ikon.hu/public/icons/og.image.ikon.png" />
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="shortcut icon" type="image/png" href="/public/images/favicon.png">
+
+        <script src="/public/js/jquery-1.11.0.min.js"></script>
+
+        <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/public/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/public/css/jquery-ui.css">         <link rel="stylesheet" href="/public/css/select2.min.css">
+
+            <link rel="stylesheet" media="screen" href="/public/stylesheets/ikon-default.css">
+
+        <script src="/public/js/bootstrap.min.js"></script>
+        <script src="/public/js/jquery-ui.min.js"></script> 
+        <script>
+    var positionSortmenu = null;
+
+    var positionMenu = function(menuId, linkId) {
+        $("#"+menuId).css({
+            position: "absolute",
+            top: ($("#"+linkId).offset().top+27), left: $("#"+linkId).offset().left,
+            width: $("#"+linkId).outerWidth()
+        }).appendTo('body');
+    }
+
+    var menuInit = function(menuId, linkId) {
+        $("#"+linkId).hover(
+                function() {
+                    positionMenu(menuId, linkId);
+                    $("#"+menuId).show();
+                },
+                function() {
+                    $("#"+menuId).hide();
+                }
+        );
+        $("#"+menuId).hover(
+                function(){
+                    $("#"+menuId).show();
+                },
+                function(){
+                    $("#"+menuId).hide();
+                }
+        );
+
+    }
+
+    $(document).ready(function(){
+//        menuInit("sortmenu", "sortlink");
+        menuInit("collapse-menu", "hamburger");
+    });
+</script>
+
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANaBhkwK0DLWgTPmE9Ljvl-F3EB1qg8Kk"></script>
+
+        <link href="/public/stylesheets/../less/ikon.less" rel="stylesheet" type="text/css" charset="utf-8"></link>
+
+                
+        
+        		<script src="/public/javascripts/jquery.editinplace.packed.js" type="text/javascript" charset="utf-8"></script>
+    	        <script src="/public/javascripts/select2.min.js"></script>
+        <script src="/public/javascripts/i18n/hu.js"></script>
+    </head>
+    <body class="">
+	<div id="mask"></div>
+        
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="hidden-xs hidden-sm col-md-1 col-lg-1 head1 cell1">
+            &nbsp;
+        </div>
+        <div class="hidden-xs col-sm-12 col-md-11 col-lg-11 head1 banner">
+                        <a href='bannerstop/ikOn18.jpg' alt='18 �ves lett az ikOn' target='_blank'><img src='bannerstop/ikOn18-banner-top.jpg' class='img-responsive'></a>
+        </div>
+    </div>
+    <div class="row head2row">
+        <div class="col-xs-4 col-md-3 head2 icon">
+            <a href="/artroll"><img src="/public/icons/ikon2017logo.png" class="img-responsive"></a>
+        </div>
+        <div class="col-xs-8 col-md-9 head2 links">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 link1"><a href="/artroll">artRoll</a></div>
+                <div class="col-xs-3 col-sm-4 link2"><a href="/galeria/artakkord">artAkkord</a></div>
+                <div class="col-xs-5 col-sm-4 link2 text-right">
+                    <a href="#" id="hamburger" class="btn btn-xs visible-xs" >
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row head-mini-row">
+                <div class="col-xs-4 col-sm-4 head-mini">aktuális események</div>
+                <div class="col-xs-3 col-sm-4 head-mini">esemény feltöltés</div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+    <div id="collapse-menu" >
+        <ul>
+            <li><a href="/application/login">belépés</a></li>
+            <li><a href="/naptar">naptár</a></li>
+            <li><a href="/about">az ikOn-ról</a></li>
+            <li><a href="/help">help</a></li>
+            <li><a href="mailto:ikon@ikon.hu">e-mail</a></li>
+            <li><a href="/artkomm">artKomm</a></li>
+            <li><a href="/archiv">archívum</a></li>
+            <li><a href="/media">médiaajánlat</a></li>
+            <li><a href="/partnerek">partnerek</a></li>
+            <li><a href="/projektek">projektek</a></li>
+                    </ul>
+    </div>
+    <div class="row">
+        <div class="hidden-xs col-sm-2 col-md-2 col-lg-1 nopad">
+            <div class="height2x login">
+                                                    <a href="/application/login" class="vcenter">belépés</a>
+                
+            </div>
+            <div class="plusmenu">
+                <a href="/naptar">naptár</a>
+                <a href="/about">az ikOn-ról</a>
+                <a href="/help">help</a>
+                <a href="mailto:ikon@ikon.hu">e-mail</a>
+                <a href="/artkomm">artKomm</a>
+                <a href="/archiv">archívum</a>
+                <a href="/media">médiaajánlat</a>
+                <a href="/partnerek">partnerek</a>
+                <a href="/projektek">projektek</a>
+                                
+
+
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 nopad">
+                    <div class="col-xs-12 hidden-xs nopad height1x centermenu-top selected-none">&nbsp;</div>
+            <div class="col-xs-12 nopad centermenu-bottom"><div class="one">A 2000 óta regisztrált események</div></div>
+                            <div class="col-xs-12 centercol">
+
+			
+
+
+  
+
+
+
+<div class="row">
+    <div class="col-xs-12 searchterm">
+                    </div>
+</div>
+
+  
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+16%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+16%3A00%3A00.0'>30</a>
+                        </div>
+           <div class="hour">16:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/6003" class="title">PSZEUDO 40 PAUER 70. Kettős jubileum!</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Pauer+Gyula' class="artists">Pauer Gyula,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Kukorelly+Endre++%C3%ADr%C3%B3' class="artists">Kukorelly Endre  &iacute;r&oacute;</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=261">MTA Műv&eacute;szeti Gyűjtem&eacute;ny</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-29+16%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-29+16%3A00%3A00.0'>29</a>
+                        </div>
+           <div class="hour">16:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/6999" class="title">Szabadegyetem: A hetvenes &eacute;vek magyar dokumentumfilmje</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=St%C5%91hr+L%C3%B3r%C3%A1nt+filmt%C3%B6rt%C3%A9n%C3%A9sz' class="artists">Stőhr L&oacute;r&aacute;nt filmt&ouml;rt&eacute;n&eacute;sz</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=43">Ludwig M&uacute;zeum - Kort&aacute;rs Műv&eacute;szeti M&uacute;zeum</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-26+16%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-26+16%3A00%3A00.0'>26</a>
+                        </div>
+           <div class="hour">16:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7034" class="title">Műv&eacute;sz szemmel: Yona Friedman ki&aacute;ll&iacute;t&aacute;s&aacute;n</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Szemerey+Samu' class="artists">Szemerey Samu,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Yona+Friedman' class="artists">Yona Friedman</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=43">Ludwig M&uacute;zeum - Kort&aacute;rs Műv&eacute;szeti M&uacute;zeum</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-27+16%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-27+16%3A00%3A00.0'>27</a>
+                        </div>
+           <div class="hour">16:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7068" class="title">asztal.</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Baglyas+Erika' class="artists">Baglyas Erika,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Csat%C3%B3+M%C3%A1t%C3%A9' class="artists">Csat&oacute; M&aacute;t&eacute;,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Csont%C3%B3+Lajos' class="artists">Csont&oacute; Lajos,</a>
+                                                <a href='/artroll/index?search=n&search_string=+J%C3%BAlius+Gyula' class="artists">J&uacute;lius Gyula,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Pacsika+Rudolf' class="artists">Pacsika Rudolf,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Szab%C3%B3+Attila' class="artists">Szab&oacute; Attila,</a>
+                                                <a href='/artroll/index?search=n&search_string=+T%C3%B3th+Eszter' class="artists">T&oacute;th Eszter,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Vincze+Ott%C3%B3' class="artists">Vincze Ott&oacute;,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Vinkler+Zsuzsi' class="artists">Vinkler Zsuzsi,</a>
+                                                <a href='/artroll/index?search=n&search_string=+feLugossy+L%C3%A1szl%C3%B3' class="artists">feLugossy L&aacute;szl&oacute;</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=19">Budapest Gal&eacute;ria</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-12-01+19%3A00%3A00.0'>2011.&nbsp;12.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-12-01+19%3A00%3A00.0'>1</a>
+                        </div>
+           <div class="hour">19:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7056" class="title">V&iacute;z</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=F%C3%BCl%C3%B6p+G%C3%A1bor' class="artists">F&uuml;l&ouml;p G&aacute;bor,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Sturcz+J%C3%A1nos' class="artists">Sturcz J&aacute;nos</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=122">acb Kort&aacute;rs Műv&eacute;szeti Gal&eacute;ria</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>30</a>
+                        </div>
+           <div class="hour">18:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/6858" class="title">Kort&aacute;rs Műv&eacute;szeti Szabadegyetem: Szipőcs Krisztina előad&aacute;sa</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Szip%C5%91cs+Krisztina' class="artists">Szipőcs Krisztina</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=240">B&aacute;lint H&aacute;z</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+19%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+19%3A00%3A00.0'>30</a>
+                        </div>
+           <div class="hour">19:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7082" class="title">Festő/Start</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Fenyvesi+%C3%81ron' class="artists">Fenyvesi &Aacute;ron,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Ga%C3%A1l+J%C3%B3zsef' class="artists">Ga&aacute;l J&oacute;zsef,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Karsai+D%C3%A1niel' class="artists">Karsai D&aacute;niel,</a>
+                                                <a href='/artroll/index?search=n&search_string=+N%C3%A9met+Szilvi' class="artists">N&eacute;met Szilvi,</a>
+                                                <a href='/artroll/index?search=n&search_string=+%C3%96tv%C3%B6s+Zolt%C3%A1n' class="artists">&Ouml;tv&ouml;s Zolt&aacute;n,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Szoboszlai+J%C3%A1nos' class="artists">Szoboszlai J&aacute;nos</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=27">Dovin Gal&eacute;ria</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-29+18%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-29+18%3A00%3A00.0'>29</a>
+                        </div>
+           <div class="hour">18:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7024" class="title">Dilemma*</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=N%C3%A9meth+Ilona' class="artists">N&eacute;meth Ilona,</a>
+                                                <a href='/artroll/index?search=n&search_string=+K%C3%A9szman+J%C3%B3zsef' class="artists">K&eacute;szman J&oacute;zsef,</a>
+                                                <a href='/artroll/index?search=n&search_string=+bevezet%C5%91t+mond+Guly%C3%A1s+G%C3%A1bor' class="artists">bevezetőt mond Guly&aacute;s G&aacute;bor</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=174">Ernst M&uacute;zeum</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-26+16%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-26+16%3A00%3A00.0'>26</a>
+                        </div>
+           <div class="hour">16:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7042" class="title">Fran&ccedil;oise Gilot: Sz&iacute;nvallom&aacute;sok</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Fran%C3%A7oise+Gilot' class="artists">Fran&ccedil;oise Gilot</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=290">V&aacute;rfok Gal&eacute;ria</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-12-01+18%3A00%3A00.0'>2011.&nbsp;12.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-12-01+18%3A00%3A00.0'>1</a>
+                        </div>
+           <div class="hour">18:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7061" class="title">H OP GEO</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Bull%C3%A1s+J%C3%B3zsef' class="artists">Bull&aacute;s J&oacute;zsef,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Rockenbauer+Zolt%C3%A1n++PhD+m%C5%B1v%C3%A9szett%C3%B6rt%C3%A9n%C3%A9sz' class="artists">Rockenbauer Zolt&aacute;n  PhD műv&eacute;szett&ouml;rt&eacute;n&eacute;sz</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=25">De&aacute;k Erika Gal&eacute;ria</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>30</a>
+                        </div>
+           <div class="hour">18:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7064" class="title">Kondor Attila ki&aacute;ll&iacute;t&aacute;smegnyit&oacute; az Ari Kupsus Gal&eacute;ri&aacute;ban</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Kondor+Attila' class="artists">Kondor Attila,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Gy%C5%91rffy+%C3%81kos' class="artists">Győrffy &Aacute;kos</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=297">Ari Kupsus Gal&eacute;ria</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-26+16%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-26+16%3A00%3A00.0'>26</a>
+                        </div>
+           <div class="hour">16:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7066" class="title">M&aacute;z</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=SZ%C3%81NT%C3%93+ISTV%C3%81N' class="artists">SZ&Aacute;NT&Oacute; ISTV&Aacute;N</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=199">V&aacute;rfok Project Room</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>30</a>
+                        </div>
+           <div class="hour">18:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7073" class="title">Kukucska</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Deli+%C3%81gnes' class="artists">Deli &Aacute;gnes,</a>
+                                                <a href='/artroll/index?search=n&search_string=+D%C3%A9kei+Kriszta+m%C5%B1v%C3%A9szett%C3%B6rt%C3%A9n%C3%A9sz' class="artists">D&eacute;kei Kriszta műv&eacute;szett&ouml;rt&eacute;n&eacute;sz</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=153">Magyar Műhely Gal&eacute;ria</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-28+18%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-28+18%3A00%3A00.0'>28</a>
+                        </div>
+           <div class="hour">18:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7075" class="title">Hidden Treasures / Rejtett kincsek</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=+Oleg+Kulik' class="artists">Oleg Kulik,</a>
+                                                <a href='/artroll/index?search=n&search_string=+B%C3%A1torfi+Andrea' class="artists">B&aacute;torfi Andrea,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Bjorn+Melhus' class="artists">Bjorn Melhus,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Cs%C3%A1ky+Marianne+' class="artists">Cs&aacute;ky Marianne,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Csurka+Eszter' class="artists">Csurka Eszter,</a>
+                                                <a href='/artroll/index?search=n&search_string=+David+Wilkinson' class="artists">David Wilkinson,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Dob%C3%B3+Bianka' class="artists">Dob&oacute; Bianka,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Douglas+Gordon' class="artists">Douglas Gordon,</a>
+                                                <a href='/artroll/index?search=n&search_string=+F%C3%B6ldi+P%C3%A9ter' class="artists">F&ouml;ldi P&eacute;ter,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Gary+Hume' class="artists">Gary Hume,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Hafner+M%C3%B3nika' class="artists">Hafner M&oacute;nika,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Igor+Basakov' class="artists">Igor Basakov,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Jordi+Pallar%C3%A9s' class="artists">Jordi Pallar&eacute;s,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Joseph+Kosuth' class="artists">Joseph Kosuth,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Julia+Winter' class="artists">Julia Winter,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Kelemen+K%C3%A1roly' class="artists">Kelemen K&aacute;roly,</a>
+                                                <a href='/artroll/index?search=n&search_string=+L%C3%A1szl%C3%B3+Lakner' class="artists">L&aacute;szl&oacute; Lakner,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Lux+A' class="artists">Lux A</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=243">L&eacute;na &amp; Roselli Gal&eacute;ria</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>30</a>
+                        </div>
+           <div class="hour">18:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7077" class="title">22-es &oacute;voda</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=T%C3%B3th+M%C3%A1rton+Emil' class="artists">T&oacute;th M&aacute;rton Emil,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Szab%C3%B3+%C3%81d%C3%A1m' class="artists">Szab&oacute; &Aacute;d&aacute;m</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=131">Parthenon-fr&iacute;z Terem</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>2011.&nbsp;11.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-11-30+18%3A00%3A00.0'>30</a>
+                        </div>
+           <div class="hour">18:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7085" class="title">Se rem&eacute;ny, se f&eacute;lelelem / Nec spe, nec metu</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Solti+Gizella+textilm%C5%B1v%C3%A9sz' class="artists">Solti Gizella textilműv&eacute;sz</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=256">FUGA Budapesti &Eacute;p&iacute;t&eacute;szeti K&ouml;zpont</a>
+                  </div>
+   </div>
+
+
+   
+  
+     <div class="row">
+       <div class="col-xs-2 col-lg-1 evt-left">
+           <div class="year-month">
+                           <a href='/artroll/index?search=t&search_string=2011-12-01+19%3A00%3A00.0'>2011.&nbsp;12.</a>
+                        </div>
+           <div class="day ">
+                           <a href='/artroll/index?search=t&search_string=2011-12-01+19%3A00%3A00.0'>1</a>
+                        </div>
+           <div class="hour">19:00</div>
+       </div>
+       <div class="col-xs-10 col-lg-11 evt-right">
+           <a href="/cal/7091" class="title">Magyar Power 50</a>
+           <span class="sep">|</span>
+                                    <a href='/artroll/index?search=n&search_string=Andr%C3%A1si+G%C3%A1bor++a+M%C5%B1%C3%A9rt%C5%91+f%C5%91szerkeszt%C5%91je' class="artists">Andr&aacute;si G&aacute;bor  a Mű&eacute;rtő főszerkesztője,</a>
+                                                <a href='/artroll/index?search=n&search_string=+Szauer+P%C3%A9ter++a+M%C5%B1%C3%A9rt%C5%91+kiad%C3%B3ja' class="artists">Szauer P&eacute;ter  a Mű&eacute;rtő kiad&oacute;ja</a>
+                                  <span class="sep">|</span>
+           <a class="gallery" href="/artroll/index?search=g_id&search_string=43">Ludwig M&uacute;zeum - Kort&aacute;rs Műv&eacute;szeti M&uacute;zeum</a>
+                  </div>
+   </div>
+
+
+ 
+			</div>
+        </div>
+        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-3 rightcol">
+            <div class="row">
+                <div class="col-xs-6 col-sm-12 search">
+                    <form id="search" name="serarch"  action="/artroll/index">
+                    <p>Keresés:</p>
+                    <input name="search_string" type="text" id="keresés" value="" class="form-control" />
+                    <select name='search' class="form-control">
+                        <option  value='n'>Név</option>
+                        <option  value='g'>Intézmény</option>
+                        <option  value='e'>Esemény</option>
+                    </select>
+                    <button type="submit" class="btn btn-default btn-xs">OK</button>
+                    </form>
+                </div>
+                <div class="col-xs-6 col-sm-12 search">
+                    <form action="/artkomm/feliratkozas" method="post" accept-charset="utf-8" enctype="multipart/form-data" id="hirlevelfel"  id="hirlevelfel"><input type="hidden" name="authenticityToken" value="2076eaa170439a542bef4c3dfd94ee0b6dc9ca90">
+                    <p>Feliratkozás az artKomm hírlevélre:</p>
+                    <input class="form-control" type='text' name='artkomm_email' placeholder="@" value="">
+                    <input class="form-control" type='text' name='artkomm_nev' placeholder="név" value="">
+                    <input type="hidden" name="artkomm_fel" value="1">
+                    <input type="hidden" name="submitfromindex" value="1">
+
+                    <button type="submit" class="btn btn-default btn-xs" value="Elküld">OK</button>
+                    
+</form>                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-xs-offset-3 col-sm-offset-0 col-sm-12 col-md-12 col-lg-5 advice">
+                    <div class="title">Jótanács</div>
+                    <div class="desc"><p>Az <strong>ikOn artKomm</strong> levelek nem mindenben helyettes&iacute;tik a postai megh&iacute;v&oacute;kat, de az <a href="http://ikon.hu"><span style="font-size: larger;"><strong>ikOn </strong></span></a>haszn&aacute;lat&aacute;val int&eacute;zm&eacute;nyenk&eacute;nt &aacute;tlagosan 4 havonta spr&oacute;lhat&oacute; meg annyi pap&iacute;r, amennyi egy fa &eacute;let&eacute;t jelent(het)i.</p></div>
+                </div>
+                <div class="col-xs-offset-0 col-xs-12 col-sm-12 col-md-12 col-lg-7 banners">
+                                        <div class='banner'><a href='https://www.isbnbooks.hu/' target='_blank'><img alt='ISBN Könyv+Galéria' src='bannersright/isbn-konyv-galeria-right-banner.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://studio.c3.hu' target='_blank'><img alt='FKSE' src='bannersright/fkse.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://hvg.hu/hvgmuerto.aspx' target='_blank'><img alt='Műértő' src='bannersright/ikon-bann-rightsmall-muerto.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.inexhibition.hu' target='_blank'><img alt='INEX' src='bannersright/ikon-bann-rightsmall-inex.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://exindex.hu/' target='_blank'><img alt='Exindex' src='bannersright/ikon-bann-rightsmall-exinde.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://balkon.art/home/' target='_blank'><img alt='BALKON' src='bannersright/balkon-right.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.ujmuveszet.hu' target='_blank'><img alt='Új Művészet' src='bannersright/ujmuveszet-right.gif' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://fenesztra.blog.hu/' target='_blank'><img alt='Fenesztra' src='bannersright/ikon-bann-rightsmall-fenesztra.jpg' class='img-responsive'></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.irokboltja.hu/' target='_blank'><img alt='Írók Boltja - online könyvesbolt' src='bannersright/ikon-bann-rightsmall-02.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.muut.hu' target='_blank'><img alt='MŰút' src='bannersright/ikon-bann-rightsmall-03.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://www.facebook.com/pages/ikOn-A-kepzomuveszeti-elet-esemenyei/132487583089' target='_blank'><img alt='Csatlakozz az ikOn rajongóihoz!' src='bannersright/ikon-facebook-01.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://artportal.hu/' target='_blank'><img alt='artportal' src='bannersright/ikon-bann-rightsmall-artportal.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://artdetektor.blogspot.hu/' target='_blank'><img alt='ArtDetektor' src='bannersright/ikon-bann-rightsmall-artdetektor.gif' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://ffs.hu/' target='_blank'><img alt='FFS' src='bannersright/ikon-bann-rightsmall-FFS.jpg' class='img-responsive'/></a></div><div class='banner'><a href='' target='_blank'><img alt='' src='bannersright/8x8.gif' class='img-responsive'></a></div><div class='banner'><a href='http://tranzitblog.hu' target='_blank'><img alt='Tranzitblog' src='bannersright/tranzitblog.gif' class='img-responsive'></a></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-lg-8" style="margin-bottom: 15px;">
+                <a href='http://www.isbnbooks.hu/' target='_blank'><img alt='ISBN K�nyv+Gal�ria' src='bannersbottom/ISBN_banner.gif' class='img-responsive'></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 footer">
+            <div class="row">
+                <div class="col-xs-12">
+                    Technikai jellegű kéréseivel, kérdéseivel, észrevételeivel kapcsolatban írjon a ikon@ikon.hu címre!
+                    <br>Copyright (c) 1999 - 2018. Koronczi Endre - <a href="http://www.bohlconsulting.com" target="_blank">Bohl Software Consulting Kft.</a> Minden jog fenntartva
+                    <br>Az ikOn a Nemzeti Kulturális Alap támogatásával működik.  NKA
+                    <br>Az ikOn név és az ikOn logo a szolgáltatás védjegye. Az ikOn oldalain a felhasználók által elhelyezett információk tartalmáért a szerzők és az üzemeltetők nem vállalnak felelősséget.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 plusmenu">
+                    <a href="/artroll">artRoll</a>
+                    <a href="/archiv">archívum</a>
+                    <a href="/galeria/artakkord">artAkkord</a>
+                    <a href="/artkomm">artKomm</a>
+                    <a href="/naptar">naptár</a>
+                    <a href="/about">az ikOn-ról</a>
+                    <a href="mailto:ikon@ikon.hu">e-mail</a>
+                    <a href="/help">help</a>
+                    <a href="/media">médiaajánlat</a>
+                    <a href="/partnerek">partnerek</a>
+                    <a href="/projektek">projektek</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!--</body>-->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=igyodi"></script>
+    </body>
+</html>

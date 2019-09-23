@@ -7,7 +7,7 @@ if __name__ == "__main__":
     import sqlite3
     from sqlite3 import Error
     try:
-        connection = sqlite3.connect("../ikon.db")
+        connection = sqlite3.connect("../resources/ikon.db")
     except Error as err:
         print(err)
     """
@@ -30,23 +30,23 @@ if __name__ == "__main__":
     SELECT ae.artist_id FROM artists_exhibitions ae INNER JOIN exhibitions e ON e.id == ae.exhibition_id WHERE e.id=?;
     '''
 
-    exhibitions = connection.execute("SELECT id, title, gallery_id, date FROM exhibitions").fetchall()
-    for exhibition in exhibitions:
-        exhibition_id, title, gallery_id, exhibition_date = exhibition
-        gallery_name = connection.execute("SELECT id, name FROM galleries WHERE id=?", (gallery_id, ) ).fetchone()
+    # exhibitions = connection.execute("SELECT id, title, gallery_id, date FROM exhibitions").fetchall()
+    # for exhibition in exhibitions:
+    #     exhibition_id, title, gallery_id, exhibition_date = exhibition
+    #     gallery_name = connection.execute("SELECT id, name FROM galleries WHERE id=?", (gallery_id, ) ).fetchone()
 
-        artists_id = [row[0] for row in connection.execute(sql_select_artists_of_exhibtion, (exhibition_id, )).fetchall()]
-        sql_select_artists_with_ids  ="SELECT id, name FROM artists WHERE id IN ("+",".join(["?"]*len(artists_id))+");"
-        artist_names =[row[1] for row in connection.execute(sql_select_artists_with_ids, artists_id).fetchall()]
+    #     artists_id = [row[0] for row in connection.execute(sql_select_artists_of_exhibtion, (exhibition_id, )).fetchall()]
+    #     sql_select_artists_with_ids  ="SELECT id, name FROM artists WHERE id IN ("+",".join(["?"]*len(artists_id))+");"
+    #     artist_names =[row[1] for row in connection.execute(sql_select_artists_with_ids, artists_id).fetchall()]
 
-        exhibition = {
-            'id': exhibition_id,
-            'title': title,
-            'gallery': gallery_name,
-            'artists': artist_names,
-            'date': exhibition_date
-        }
-        print(exhibition)
+    #     exhibition = {
+    #         'id': exhibition_id,
+    #         'title': title,
+    #         'gallery': gallery_name,
+    #         'artists': artist_names,
+    #         'date': exhibition_date
+    #     }
+    #     print(exhibition)
 
 
     """
@@ -66,6 +66,17 @@ if __name__ == "__main__":
     INNER JOIN artists a ON a.id = ae.artist_id
     WHERE a.name LIKE 'and%' AND e.title LIKE 'Think%';
     '''
+
+    sql_select_artists_with_noexhibitions = '''
+    SELECT a.id, a.name, COUNT(ae.artist_id) as No_exhibitions
+    FROM artists_exhibitions ae
+    JOIN artists a ON a.id = ae.artist_id
+    GROUP BY ae.artist_id
+    HAVING No_exhibitions>=5
+    ORDER BY No_exhibitions DESC;
+    '''
+
+    print("number of artists with at least 2 exhibitions:",len(list(connection.execute(sql_select_artists_with_noexhibitions).fetchall())))
 
 
 

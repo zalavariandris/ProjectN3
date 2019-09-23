@@ -1,21 +1,7 @@
 from utilities.profiler import profile
 from CRUD import *
 import re
-def connectToDatabase(filepath):
-    import sqlite3
-    from sqlite3 import Error
-    try:
-        connection = sqlite3.connect(filepath)
-    except Error as err:
-        print(err)
 
-    import re
-    def regexp(y, x, search=re.search):
-        return 1 if search(y, x) else 0
-
-    connection.create_function('regexp', 2, regexp)
-
-    return connection
 
 @profile
 def select_artists_with_exhibition_count(connection):
@@ -31,7 +17,6 @@ def select_artists_with_exhibition_count(connection):
     print(len(result))
     for item in result:
         print(item)
-
 
 # ========================================================================
 @profile
@@ -164,16 +149,19 @@ def find_variants(connection, searchlimit=None):
     FROM artists
     ORDER BY name ASC;
     '''
-
     all_artists = connection.execute(sql).fetchall()[:searchlimit]
     variants = dict()
+    stack = set()
     for A in all_artists:
         for B in all_artists:
-            if A[1] in B[1] and A[0]!=B[0] and B not in variants:
-                if A not in variants:
-                    variants[A] = []
-                variants[A].append(B)
-                s.add(B)
+            if A[1] in B[1] and A[0]!=B[0]:
+                if B not in stack:
+                    if A not in variants:
+                        variants[A] = []
+                        stack.add(A)
+                    variants[A].append(B)
+                    stack.add(B)
+
 
     return sorted( [[a] + b for a, b in variants.items()], key=lambda a : len(a[1]) )
 
@@ -305,6 +293,24 @@ def tag_suspicous(connection):
     WHERE name LIKE '%kiállítás%';
     '''
     connection.execute(sql)
+
+
+    # contains 'Akadémia'
+    sql = '''
+    UPDATE artists
+    SET suspicious="contains 'Akadémia'"
+    WHERE name LIKE '%Akadémia%';
+    '''
+    connection.execute(sql)
+
+        # contains 'Akadémia'
+    sql = '''
+    UPDATE artists
+    SET suspicious="contains 'tagok'"
+    WHERE name LIKE '%tagok%';
+    '''
+    connection.execute(sql)
+    
     
     
 
@@ -316,11 +322,8 @@ def delete_suspicious(connection):
     '''
     connection.execute(sql)
 
-
-
-    
 if __name__ == "__main__":
-    connection = connectToDatabase("../ikon.db")
+    connection = connectToDatabase("../resources/ikon.db")
     remove_parenthesis_from_names(connection)
     delete_rows_starts_with_non_letters(connection)
     split_artist_entries_with_multiple_artist_names(connection)
@@ -335,11 +338,30 @@ if __name__ == "__main__":
 
     # clean
     # művész, író, költő, képzőnűvész, művészeti író, ***díjas építést
+    def merge_variants(connection, variants):
+        sql = '''
+        SELECT exhibition_id
+        FROM artists_exhibitions
+        WHERE artist_id IN ({});
+        '''.format( ",".join(["?"]*len(variants) ) )
+
+        exhibitions = connection.execute(sql, [a[0] for a in variants]).fetchall()
+        artist_id = insert_artist(connection, variants[0][1])
+        for exhibition in exhibitions:
+
+            print("link artist to exhibition", artist_id,"->", exhibition)
+            link_artist_to_exhibition(connection, (artist_id,), exhibition)
+
+        for variant in variants:
+            delete_artist_where_id_is(connection, variant[0])
 
     for variants in find_variants(connection):
         for a in variants:
             print("-", a[1])
         print()
+        merge_variants(connection, variants)
+
+    connection.commit()
         # if len(variants[1].split(" "))==1:
         #     artist = list(select_artists_where_name_like(connection, variants[1]))[0]
         #     exhibition = list(select_exhibitions_where_artist_is(connection, artist))[0]

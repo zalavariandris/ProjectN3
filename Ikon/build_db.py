@@ -10,7 +10,7 @@ def init_database():
     import sqlite3
     from sqlite3 import Error
     try:
-        connection = sqlite3.connect("../ikon.db")
+        connection = sqlite3.connect("../resources/ikon.db")
     except Error as err:
         print(err)
 
@@ -88,14 +88,18 @@ def fill_database(connection, data):
 if __name__ == "__main__":
     import scrape_db as scrape
     from build_db import *
-    from CRUD import *
-    connection = init_database()
+    
+
+    """
+    scrape data from htlm files
+    """
+    filepaths = list(scrape.get_filepaths_on_disk("./tmp"))
+    pages = list(scrape.read_files_from_disk(filepaths))
+    data = scrape.parse_html_pages(pages)
+
 
     """
     Fill tables with data
     """
-    # read data from htlm files
-    filepaths = list(scrape.get_filepaths_on_disk("./tmp"))
-    pages = list(scrape.read_files_from_disk(filepaths))
-    data = scrape.parse_html_pages(pages)
+    connection = init_database()
     fill_database(connection, data)

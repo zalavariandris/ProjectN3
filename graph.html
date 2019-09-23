@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+    <head>
+        <title>ProjectN</title>
+        <!--THREE JS -->
+        <script type="text/javascript" src="./vendor/three.js"></script>
+        <script type="text/javascript" src="./vendor/OrbitControls.js"></script>
+        <script type="text/javascript" src="./vendor/TrackballControls.js"></script>
+        <script type="text/javascript" src="./vendor/stats.js"></script>
+
+        <!--DATA -->
+        <script type="text/javascript" src="./resources/ikon_graph.js" charset="UTF-8"></script>
+
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+        <style type="text/css">
+            body{
+                font-family: monospace;
+            }
+            #graph {
+                position: fixed;
+                top: 0;
+                left: 0;
+                touch-action: none;
+            }
+            #info{
+                color: white;
+                background-color: black;
+                z-index: 1;
+                position: fixed;
+                margin: 5px;
+                padding: 5px;
+            }
+            p{
+                margin: 0;
+            }
+            #info a{
+                color: inherit;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="info">
+            <p> Hungarian art network based on IkOn archives</p>
+            <a href="http://ikon.hu/archiv">http://ikon.hu/archiv</a>
+        </div>
+        <div id="graph"></div>
+
+        <!--MAIN JS -->
+
+        <script type="text/javascript" src="./src/graph.js"></script>
+    </body>
+</html>
