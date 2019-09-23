@@ -17,10 +17,7 @@ function init(){
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.0001, 10 );
     camera.position.z = 1;
-    controls = new THREE.TrackballControls( camera );
-    controls.update();
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.07;
+
 
     sun = new THREE.DirectionalLight();
     sun.position.set(1,1,0);
@@ -30,6 +27,11 @@ function init(){
     element = document.body
     element = document.getElementById("graph")
     element.appendChild( renderer.domElement );
+
+    controls = new THREE.TrackballControls( camera, );
+    controls.update();
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.07;
 }
 
 class GraphObject{
