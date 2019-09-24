@@ -276,7 +276,7 @@ document.body.appendChild( stats.dom );
 
 init()
 
-fetch("./resources/ikon_graph.json")
+fetch("./resources/ikon_artists_graph.json")
 .then((resp)=> resp.json())
 .then(function(G){
     graphObject = new GraphObject(G)

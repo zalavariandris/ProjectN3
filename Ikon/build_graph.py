@@ -4,45 +4,11 @@ Build GRAPH
 """
 
 import networkx as nx
-import itertools
 from utilities.profiler import profile
+from CRUD import *
 
 @profile
-def build_graph(connection)->'nx.MultiGraph':
-	"""
-	build graph
-	"""
-
-	# create nodes
-	artists = select_artists_with_noexhibitions(connection,5)
-	galleries = select_galleries(connection)
-	print(len(list(artists)), len(list(galleries)))
-
-	G = nx.MultiGraph()
-	for artist in artists:
-		ID = "A{}".format(artist[0])
-		G.add_node(ID, label=artist[1], color="cyan")
-
-	for gallery in galleries:
-		ID = "G{}".format(gallery[0])
-		G.add_node(ID, label=gallery[1], color="orange")
-
-	# create edges
-	for artist in artists:
-		source_id = "A{}".format(artist[0])
-		assert source_id in G.nodes, source_id
-		exhibitions = select_exhibitions_of_artist(connection, artist)
-		for exhibition in exhibitions:
-			gallery = select_gallery_of_exhibition(connection, exhibition)
-			
-			target_id = "G{}".format(gallery[0])
-			assert target_id in G.nodes, target_id
-			G.add_edge(source_id, target_id)
-
-	return G
-
-@profile
-def build_graph_original(connection):
+def build_artists_exhibitions_graph(connection):
 	G = nx.Graph()
 	for exhibition in select_exhibitions(connection):
 	    G.add_node("E{:06}".format(exhibition[0]),
@@ -65,6 +31,25 @@ def build_graph_original(connection):
 	        G.add_edge("E{:06}".format(exhibition[0]), "A{:06}".format(artist[0]), 
 	                   weight=1.0/len(artists)
 	                  )
+
+	# Filter nodes by degree
+	H = G.subgraph([n for n in G.nodes() if G.degree(n)>5])
+	return H
+
+@profile
+def build_artists_graph(connection):
+	from itertools import combinations
+	G = nx.Graph()
+	for exhibition in select_exhibitions(connection):
+		artists = list(select_artists_of_exhibition(connection, exhibition))
+		if len(artists):
+			weight = 1/len(artists)
+
+			for u, v in combinations(artists, 2):
+				if (u,v) in G.edges:
+					G.edges[(u, v)]['weight'] +=weight
+				else:
+					G.add_edge("A{:06}".format(u[0]), "A{:06}".format(v[0]), weight=weight)
 
 	# Filter nodes by degree
 	H = G.subgraph([n for n in G.nodes() if G.degree(n)>5])
@@ -94,17 +79,21 @@ def create_graph_json(G)->'json':
 
 	return j
 
-from CRUD import *
+
 if __name__ == "__main__":
 	connection = connectToDatabase("../resources/ikon.db")
 
-	G = build_graph_original(connection)
+	# G = build_artists_exhibitions_graph(connection)
+	# j = create_graph_json(G)
+	# import json
+	# with open("../resources/ikon_artists_exhibitions_graph.json", "w", encoding='utf-8') as file:
+	# 	json.dump(j, file, ensure_ascii=False, sort_keys=True, indent=4)
 
 
+	G = build_artists_graph(connection)
 	j = create_graph_json(G)
 	import json
-	with open("../resources/ikon_graph.js", "w", encoding='utf-8') as file:
-		file.write("data = ")
+	with open("../resources/ikon_artists_graph.json", "w", encoding='utf-8') as file:
 		json.dump(j, file, ensure_ascii=False, sort_keys=True, indent=4)
 
 
