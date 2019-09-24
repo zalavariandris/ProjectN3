@@ -1,0 +1,14 @@
+# ignore folder named 'tmp'
+tmp/
+
+# Python stuff
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+*.db
+
+
+.*
+!.gitignore
