@@ -98,20 +98,20 @@ class GraphObject{
     create_labels(){
         let nodes = this.G.nodes;
         let labels = new THREE.Group()
-        for(var n in nodes)
+        for(let n in nodes)
         {
             // attributes
-            var text = nodes[n].label;
-            var textHeight = 0.0015;
-            var fontFace = "Futura";
-            var fontSize = 32;
-            var font = "normal "+fontSize+"px"+" "+fontFace;
+            let text = nodes[n].label;
+            let textHeight = 0.0015;
+            let fontFace = "Futura";
+            let fontSize = 32;
+            let font = "normal "+fontSize+"px"+" "+fontFace;
 
             // create canvas
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext("2d");
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext("2d");
             ctx.font = font;
-            var textWidth = ctx.measureText(text).width;
+            let textWidth = ctx.measureText(text).width;
             canvas.width = textWidth;
             canvas.height = fontSize;
 
@@ -126,19 +126,19 @@ class GraphObject{
                 ctx.fillText(text, 0, canvas.height);
 
                 // create texture
-                var tex = new THREE.Texture(canvas);
+                let tex = new THREE.Texture(canvas);
                 tex.needsUpdate = true;
-                var spriteMat = new THREE.SpriteMaterial({
+                let spriteMat = new THREE.SpriteMaterial({
                     map: tex,
                     sizeAttenuation: true,
                     premultipliedAlpha: false
                 });
-                var sprite = new THREE.Sprite(spriteMat);
-                var o = new THREE.Object3D()
+                let sprite = new THREE.Sprite(spriteMat);
+                let o = new THREE.Object3D()
                 o.add(sprite);
 
                 sprite.position.set(nodes[n]['pos'][0], nodes[n]['pos'][1], nodes[n]['pos'][2]);
-                var aspect = canvas.width/canvas.height;
+                let aspect = canvas.width/canvas.height;
                 sprite.center = new THREE.Vector2(1,0);
                 sprite.scale.set(textHeight * aspect, textHeight);
                 labels.add(sprite);
@@ -184,7 +184,7 @@ class GraphObject{
     }
 
     create_spheres(){
-        var spheres_obj = new THREE.Group();
+        let spheres_obj = new THREE.Group();
         let nodes = G['nodes'];
 
         let geomety = new THREE.IcosahedronBufferGeometry(0.0003, 0);
@@ -244,8 +244,8 @@ class GraphObject{
    =======*/
 function goto(name){
     //search
-    var node;
-    for(var n in nodes){
+    let node;
+    for(let n in nodes){
         if(nodes[n].label == name){
             node = n; 
         }
@@ -276,6 +276,8 @@ document.body.appendChild( stats.dom );
 
 init()
 
+
+
 fetch("./resources/ikon_artists_exhibitions_graph.json")
 .then((resp)=> resp.json())
 .then(function(G){
@@ -283,14 +285,12 @@ fetch("./resources/ikon_artists_exhibitions_graph.json")
     scene.add(graphObject.graph_obj);
 });
 
-
 window.addEventListener( 'resize', onWindowResize, false );
 function onWindowResize(){
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
-
 
 /* ======
  * RENDER

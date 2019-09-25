@@ -313,10 +313,7 @@ if __name__ == "__main__":
     connection.execute("DELETE FROM ARTISTS WHERE name LIKE 'és mások...';")
     connection.commit()
 
-
-
-    # clean
-    # művész, író, költő, képzőnűvész, művészeti író, ***díjas építést
+    # fin variants and merge them
     def merge_variants(connection, variants):
         sql = '''
         SELECT exhibition_id
