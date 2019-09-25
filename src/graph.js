@@ -11,8 +11,8 @@ function init(){
     /*
      * Setup threejs scene
      */
-    renderer = new THREE.WebGLRenderer({antialias: false, depth: true});
-    renderer.setClearColor("black", 1.0)
+    renderer = new THREE.WebGLRenderer({antialias: false, depth: true, alpha: true});
+    // renderer.setClearColor("black", 1.0)
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.shadowMap.enabled = false;
     renderer.shadowMap.type = THREE.BasicShadowMap;
