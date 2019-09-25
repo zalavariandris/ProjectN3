@@ -66,21 +66,21 @@ def split_artist_entries_with_multiple_artist_names(connection):
      Bernát András Bullás József Chilf Mária Csiszér Zsuzsa Fóris Katalin Gajzágó Donáta Horváth Lóczi Judit Káldi Kata Korodi Luca Kovács Lola Lengyel András Madácsy István Nagy Gábor György Nagy Zsófia Nemere Réka Ötvös Zoltán Soós Tamás Szabó Attila Szilágy
 Bernát András Bullás József Chilf Mária Csiszér Zsuzsa Fóris Katalin Gajzágó Donáta Horváth Lóczi Judit Káldi Kata Korodi Luca Kovács Lola Lengyel András Madácsy István Nagy Gábor György Nagy Zsófia Nemere Réka Ötvös Zoltán Soós Tamás Szabó Attila Szilágy
 
-- Barna Orsolya – Gosztola Kitti – Pálinkás Bence György
-- Gosztola Kitti & Hegedűs Fanni & Pálinkás Bence
-- Gosztola Kitti & Pálinkás Bence & Hegedűs Fanni
-- Gosztola Kitti - Hegedűs Fanni - Pálinkás Bence György
-- Gosztola Kitti – Pálinkás Bence György
-- Gosztola Kitti–Pálinkás Bence György
+    - Barna Orsolya – Gosztola Kitti – Pálinkás Bence György
+    - Gosztola Kitti & Hegedűs Fanni & Pálinkás Bence
+    - Gosztola Kitti & Pálinkás Bence & Hegedűs Fanni
+    - Gosztola Kitti - Hegedűs Fanni - Pálinkás Bence György
+    - Gosztola Kitti – Pálinkás Bence György
+    - Gosztola Kitti–Pálinkás Bence György
 
-- Gosztola Kitti & Hegedűs Fanni & Pálinkás Bence
-- Gosztola Kitti & Pálinkás Bence & Hegedűs Fanni
-- Gosztola Kitti - Hegedűs Fanni - Pálinkás Bence György
+    - Gosztola Kitti & Hegedűs Fanni & Pálinkás Bence
+    - Gosztola Kitti & Pálinkás Bence & Hegedűs Fanni
+    - Gosztola Kitti - Hegedűs Fanni - Pálinkás Bence György
 
-- Herendi Péter  ▪ Gábor Éva Mária
+    - Herendi Péter  ▪ Gábor Éva Mária
 
-- Hencze Tamás
-- Haraszty István  Hencze Tamás
+    - Hencze Tamás
+    - Haraszty István  Hencze Tamás
     """
     def split_names(text, delimiter):
         return [_.strip() for _ in filter(None, text.split(delimiter))]
@@ -116,31 +116,6 @@ Bernát András Bullás József Chilf Mária Csiszér Zsuzsa Fóris Katalin Gajz
             for exhibition_id in exhibition_ids:
                 unlink_artist_from_exhibition(connection, (artist_list_id, ), (exhibition_id, ))
             delete_artist_where_id_is(connection, artist_list_id)
-        
-@profile    
-def find_variants(connection):
-    sql = '''
-    SELECT name
-    FROM artists;
-    '''
-    all_names = connection.execute(sql).fetchall()
-    namevariants = dict()
-    for row in all_names:
-        ref_name = row[0]
-        namevariants[ref_name] = []
-
-    for ref_name, variants in namevariants.items():
-        for n in namevariants.keys():
-            if(ref_name in n and ref_name !=n):
-                variants.append(n)
-
-    cleaned_namevariants = []
-    for ref_name, variants in namevariants.items():
-        if len(variants) > 0:
-            cleaned_namevariants.append(sorted(variants+[ref_name], key=len))
-
-    for variants in cleaned_namevariants:
-        yield variants
 
 @profile
 def find_variants(connection, searchlimit=None):
@@ -154,7 +129,7 @@ def find_variants(connection, searchlimit=None):
     stack = set()
     for A in all_artists:
         for B in all_artists:
-            if A[1] in B[1] and A[0]!=B[0]:
+            if A[0]!=B[0] and A[1].lower() in B[1].lower():
                 if B not in stack:
                     if A not in variants:
                         variants[A] = []
@@ -312,8 +287,6 @@ def tag_suspicous(connection):
     connection.execute(sql)
     
     
-    
-
 def delete_suspicious(connection):
     sql = '''
     DELETE
@@ -321,6 +294,11 @@ def delete_suspicious(connection):
     WHERE suspicious NOT NULL;
     '''
     connection.execute(sql)
+
+def convert_artists_to_title_case(connection):
+    for artist in select_artists(connection):
+        if artist[1] != artist[1].title():
+            update_artist_where_id_is(connection, artist[0], artist[1].title())
 
 if __name__ == "__main__":
     connection = connectToDatabase("../resources/ikon.db")
@@ -331,6 +309,7 @@ if __name__ == "__main__":
     remove_frequent_indicatives(connection)
     tag_suspicous(connection)
     delete_suspicious(connection)
+    convert_artists_to_title_case(connection)
     connection.execute("DELETE FROM ARTISTS WHERE name LIKE 'és mások...';")
     connection.commit()
 

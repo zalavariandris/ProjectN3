@@ -89,7 +89,7 @@ if __name__ == "__main__":
     import scrape_db as scrape
     from build_db import *
     
-
+    connection = init_database()
     """
     scrape data from htlm files
     """
@@ -101,5 +101,5 @@ if __name__ == "__main__":
     """
     Fill tables with data
     """
-    connection = init_database()
+    
     fill_database(connection, data)
