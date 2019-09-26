@@ -11,7 +11,7 @@ function init(){
     /*
      * Setup threejs scene
      */
-    renderer = new THREE.WebGLRenderer({antialias: false, depth: true, alpha: true});
+    renderer = new THREE.WebGLRenderer({antialias: false, depth: true, alpha: false});
     // renderer.setClearColor("black", 1.0)
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.shadowMap.enabled = false;
@@ -32,7 +32,7 @@ function init(){
     element = document.getElementById("graph")
     element.appendChild( renderer.domElement );
 
-    controls = new THREE.TrackballControls( camera, );
+    controls = new THREE.TrackballControls( camera, renderer.domElement );
     controls.update();
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.07;
