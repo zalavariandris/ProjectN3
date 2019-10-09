@@ -11,8 +11,8 @@ function init(){
     /*
      * Setup threejs scene
      */
-    renderer = new THREE.WebGLRenderer({antialias: false, depth: true, alpha: false});
-    // renderer.setClearColor("black", 1.0)
+    renderer = new THREE.WebGLRenderer({antialias: true, depth: true, alpha: false, preserveDrawingBuffer: true});
+    renderer.setClearColor("black", 1.0)
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.shadowMap.enabled = false;
     renderer.shadowMap.type = THREE.BasicShadowMap;
@@ -104,7 +104,7 @@ class GraphObject{
             let text = nodes[n].label;
             let textHeight = 0.0015;
             let fontFace = "Futura";
-            let fontSize = 32;
+            let fontSize = 64; // 32
             let font = "normal "+fontSize+"px"+" "+fontFace;
 
             // create canvas
@@ -250,6 +250,7 @@ function goto(name){
             node = n; 
         }
     }
+    
     if(node==undefined){
         return false;
     }

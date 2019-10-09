@@ -43,5 +43,124 @@
         <!--MAIN JS -->
 
         <script type="text/javascript" src="./src/graph.js"></script>
+        <script>
+            // function upload_files(files) {
+            //     document.createEle
+            //     // let upload_results = document.getElementById("upload_results_element");
+            //     let formData = new FormData(),
+            //         xhr = new XMLHttpRequest();
+
+            //     console.log("Dropped " + String(files.length) + " files.");
+            //     for(let i=0; i<files.length; i++) {
+            //         formData.append("file", files[i]);
+            //     }
+
+            //     xhr.onreadystatechange = function() {
+            //         if(xhr.readyState === XMLHttpRequest.DONE) {
+            //             alert(xhr.responseText);
+            //         }
+
+            //         console.log(xhr.response);
+            //         // upload_results.innerHTML = this.response;
+            //     }
+
+            //     console.log("Let's upload files: ", formData);
+            //     xhr.open('POST', 'upload_handler.py', true); // async = true
+            //     xhr.send(formData); 
+            // }
+
+
+            function dataURItoBlob(dataURI) {
+                // convert base64/URLEncoded data component to raw binary data held in a string
+                let byteString;
+                if (dataURI.split(',')[0].indexOf('base64') >= 0)
+                    byteString = atob(dataURI.split(',')[1]);
+                else
+                    byteString = unescape(dataURI.split(',')[1]);
+                // separate out the mime component
+                let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+                // write the bytes of the string to a typed array
+                let ia = new Uint8Array(byteString.length);
+                for (let i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                return new Blob([ia], {type:mimeString});
+            }
+
+            // function makeScreenshots() {
+            //   var desiredWidth = 7000;
+            //   var desiredHeight = 7000;
+            //   var stepX = 1000;
+            //   var stepY = 1000;
+            //   for (var y = 0; y < desiredHeight; y += stepY) {
+            //     for (var x = 0; x < desiredWidth; x += stepX) {
+            //       camera.setViewOffset( desiredWidth, desiredHeight, x, y, stepX, stepY );
+            //       renderer.render( scene, camera );
+            //       var screenshotDataURL = renderer.domElement.toDataURL();
+            //       saveScreenshot( "screenshot" + x + "-" + y + ".png", screenshotDataURL );
+            //     }
+            //   }
+            // }
+
+            function capture(fullWidth, fullHeight, x, y, width, height){
+                console.log("capture", fullWidth, fullHeight, x, y, width, height);
+                camera.setViewOffset(fullWidth, fullHeight, x, y, width, height);
+                camera.updateProjectionMatrix();
+
+
+                //create screenshot
+                renderer.render( scene, camera );
+                let dataURL = renderer.domElement.toDataURL();
+                let file = dataURItoBlob(dataURL);
+                camera.clearViewOffset();
+                return file;
+            }
+
+            function captureTiles(fullWidth, fullHeight, stepX, stepY){
+                files = []
+                for (var y = 0; y < fullHeight; y += stepY) {
+                    for (var x = 0; x < fullWidth; x += stepX) {
+                        let file = capture(fullWidth, fullHeight, x, y, stepX, stepY);
+                        // add custom proerty 
+                        file.tile_position = {'x':x, 'y':y};
+                        console.log("file:", file)
+                        files.push(file)
+                    }
+                }
+                return files;
+            }
+
+            function uploadFiles(files){
+                let formData = new FormData(),
+                xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState === XMLHttpRequest.DONE) {
+                        alert(xhr.responseText);
+                    }
+                    console.log("response:", xhr.response);
+                }
+
+                let i=0;
+                for(file of files){
+                    x = file.tile_position.x;
+                    y = file.tile_position.y;
+                    filename = "capture_"+x+"-"+y+".png";
+                    formData.append("file", file, filename);
+                    i++;
+                }
+                
+
+                xhr.open('POST', 'upload_handler.py', true); // async = true
+                xhr.send(formData); 
+            }
+
+            function saveScreenshot(fullWidth, fullHeight, stepX, stepY){
+                renderer.setSize(stepX, stepY);
+                let files = captureTiles(fullWidth, fullHeight, stepX, stepY);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                uploadFiles(files);
+            }
+        </script>
     </body>
 </html>
