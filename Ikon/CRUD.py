@@ -107,7 +107,7 @@ def select_artists(connection):
 
     return connection.execute(sql).fetchall()
 
-def select_artists_with_noexhibitions(connection, count):
+def select_artists_with_exhibitions_count(connection, count):
     sql = '''
     SELECT a.id, a.name, COUNT(ae.artist_id) as No_exhibitions
     FROM artists_exhibitions ae

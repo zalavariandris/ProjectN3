@@ -32,9 +32,12 @@ def build_artists_exhibitions_graph(connection):
 	                   weight=1.0/len(artists)
 	                  )
 
+	for node, pagerank in nx.pagerank(G).items():
+		G.node[node]['pagerank'] = pagerank
+
 	# Filter nodes by degree
-	H = G.subgraph([n for n in G.nodes() if G.degree(n)>5])
-	return H
+	G = G.subgraph([n for n in G.nodes() if G.degree(n)>5])
+	return G
 
 @profile
 def build_artists_graph(connection):
@@ -77,8 +80,14 @@ def create_graph_json(G)->'json':
 	for n, position in positions.items():
 		j['nodes'][n]['pos'] = [position[0], position[1], position[2]]
 
-	return j
+	for node in G.nodes:
+		degree = G.degree(node, "weight")
+		j['nodes'][node]['degree'] = degree
 
+	for node, pagerank in nx.pagerank(G).items():
+		j['nodes'][node]['pagerank'] = pagerank
+
+	return j
 
 if __name__ == "__main__":
 	connection = connectToDatabase("../resources/ikon.db")
@@ -89,11 +98,16 @@ if __name__ == "__main__":
 	# with open("../resources/ikon_artists_exhibitions_graph.json", "w", encoding='utf-8') as file:
 	# 	json.dump(j, file, ensure_ascii=False, sort_keys=True, indent=4)
 
+	"""build graph"""
+	G = build_artists_exhibitions_graph(connection)
 
-	G = build_artists_graph(connection)
+	# G = build_artists_graph(connection)
+	"""create json"""
 	j = create_graph_json(G)
+
+	"""save json file"""
 	import json
-	with open("../resources/ikon_artists_graph.json", "w", encoding='utf-8') as file:
+	with open("../resources/ikon_artists_exhibitions_graph2.json", "w", encoding='utf-8') as file:
 		json.dump(j, file, ensure_ascii=False, sort_keys=True, indent=4)
 
 

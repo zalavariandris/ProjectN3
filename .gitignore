@@ -1,14 +1,10 @@
-# ignore folders
-Ikon/tmp/
-Ikon/archive/
-__pycache__/
+
 
 # Python stuff
 # Byte-compiled / optimized / DLL files
-
+**/__pycache__/
 *.py[cod]
 *$py.class
-
 
 .*
 !.gitignore
@@ -16,3 +12,10 @@ __pycache__/
 *.pyc
 
 *.png
+
+# ignore specific folders
+screenshots/
+Ikon/tmp/
+Ikon/archive/
+
+

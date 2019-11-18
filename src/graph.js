@@ -7,6 +7,7 @@ var camera;
 var controls;
 var scene;
 var sun;
+
 function init(){
     /*
      * Setup threejs scene
@@ -38,15 +39,26 @@ function init(){
     controls.autoRotateSpeed = 0.07;
 }
 
-class GraphObject{
-    constructor(G){
-        this.graph_obj = new THREE.Object3D();
-        this.G = G
-        this.create_links()
-        this.create_labels()
+class Links{
+    constructor(G, options = {}){
+        this.G = G;
+        this.create_mesh(); 
     }
 
-    create_links(){
+    setColors(f){
+        const edges = this.G.edges;
+        const n = edges.length;
+        var colors = this.mesh.geometry.attributes.color.array;
+        for(let e=0; e<n; e++){
+            let color = f(this.G.edges[e]);
+            colors[e*6+0] = colors[e*6+3+0] = color.r*255;
+            colors[e*6+1] = colors[e*6+3+1] = color.g*255;
+            colors[e*6+2] = colors[e*6+3+2] = color.b*255;
+        }
+        this.mesh.geometry.attributes.color.needsUpdate = true;
+    }
+
+    create_mesh(){
         let nodes = this.G['nodes'];
         let edges = this.G['edges'];
 
@@ -75,10 +87,12 @@ class GraphObject{
             r/=length;
             g/=length;
             b/=length;
+
             colors[e*6+0] = colors[e*6+3+0] = r*255;
-            colors[e*6+1] = colors[e*6+3+1] = b*255;
-            colors[e*6+2] = colors[e*6+3+2] = g*255;
+            colors[e*6+1] = colors[e*6+3+1] = g*255;
+            colors[e*6+2] = colors[e*6+3+2] = b*255;
         }
+
         geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
         geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3, true ) );
 
@@ -92,17 +106,30 @@ class GraphObject{
         } );
         let web = new THREE.LineSegments( geometry, web_material );
         web.renderOrder = -1;
-        this.graph_obj.add( web );
+        this.mesh = web;
+    }
+}
+
+class Labels{
+    constructor(G, options){
+        this.G = G;
+        this.mesh = this.create_mesh(options);
     }
 
-    create_labels(){
+    create_mesh(options){
         let nodes = this.G.nodes;
-        let labels = new THREE.Group()
+        let mesh = new THREE.Group()
         for(let n in nodes)
         {
+            if(n[0]=="A" && nodes[n].degree<options.artists.minDegree){
+                continue;
+            }
+            if(n[0]=="E" && nodes[n].degree<options.exhibitions.minDegree){
+                continue;
+            }
             // attributes
             let text = nodes[n].label;
-            let textHeight = 0.0015;
+            let textHeight = 0.0025* Math.pow(nodes[n].degree/2, 1.2);
             let fontFace = "Futura";
             let fontSize = 64; // 32
             let font = "normal "+fontSize+"px"+" "+fontFace;
@@ -119,9 +146,6 @@ class GraphObject{
             ctx.textAlign = "left";
             ctx.textBaseline = 'bottom';
             if(canvas.width>0 && canvas.height>0){
-                // ctx.fillStyle = "blue";
-                // ctx.fillRect(0, 0, canvas.width, canvas.height);
-
                 ctx.fillStyle = "white";
                 ctx.fillText(text, 0, canvas.height);
 
@@ -130,27 +154,43 @@ class GraphObject{
                 tex.needsUpdate = true;
                 let spriteMat = new THREE.SpriteMaterial({
                     map: tex,
+                    fog: true,
                     sizeAttenuation: true,
                     premultipliedAlpha: false
                 });
                 let sprite = new THREE.Sprite(spriteMat);
-                let o = new THREE.Object3D()
-                o.add(sprite);
+                // let o = new THREE.Object3D()
+                // o.add(sprite);
 
                 sprite.position.set(nodes[n]['pos'][0], nodes[n]['pos'][1], nodes[n]['pos'][2]);
                 let aspect = canvas.width/canvas.height;
                 sprite.center = new THREE.Vector2(1,0);
                 sprite.scale.set(textHeight * aspect, textHeight);
-                labels.add(sprite);
-            }else{
-                console.log(text, textWidth, fontSize);
+                sprite.degree = nodes[n].degree;
+                mesh.add(sprite);
             }
-            this.graph_obj.add(labels);
+        }
+        return mesh;
+    }
+}
+
+class GraphObject{
+    constructor(G, filters = {'links': true, 'labels': true}){
+        this.mesh = new THREE.Object3D();
+        this.G = G
+
+        if(filters.links){
+            this.links = new Links(this.G);
+            this.mesh.add(this.links.mesh);
+        }
+
+        if(filters.labels){
+            this.labels = new Labels(this.G, filters.labels);
+            this.mesh.add(this.labels.mesh);
         }
     }
 
     create_dots(){
-            
             let nodes = this.G['nodes'];
             let geometry = new THREE.BufferGeometry();
             let vertices = new Float32Array(Object.keys(nodes).length*3);
@@ -171,7 +211,6 @@ class GraphObject{
             //geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
             //geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3, true ) );
 
-
             let dots_material = new THREE.PointsMaterial( { 
               color: 0x888888,
                 sizeAttenuation: true,
@@ -180,7 +219,7 @@ class GraphObject{
                 vertexColors: THREE.VertexColors
             } );
             let dots = new THREE.Points( geometry, dots_material );
-            graph_obj.add(dots);
+            this.mesh.add(dots);
     }
 
     create_spheres(){
@@ -201,7 +240,7 @@ class GraphObject{
             mesh.scale.set(nodes[n]['size'], nodes[n]['size'], nodes[n]['size'])
             spheres_obj.add(mesh);
         }
-        graph_obj.add(spheres_obj);
+        this.mesh.add(spheres_obj);
     }
 
     create_tubes(){
@@ -235,7 +274,7 @@ class GraphObject{
             tubes.add(tube);
         }
 
-        graph_obj.add(tubes);
+        this.mesh.add(tubes);
     }
 }
 
@@ -243,6 +282,7 @@ class GraphObject{
    HELPERS
    =======*/
 function goto(name){
+    let nodes = graphObject.G.nodes
     //search
     let node;
     for(let n in nodes){
@@ -250,7 +290,7 @@ function goto(name){
             node = n; 
         }
     }
-    
+
     if(node==undefined){
         return false;
     }
@@ -277,13 +317,18 @@ document.body.appendChild( stats.dom );
 
 init()
 
-
-
-fetch("./resources/ikon_artists_exhibitions_graph.json")
+fetch("./resources/ikon_artists_exhibitions_graph2.json")
 .then((resp)=> resp.json())
 .then(function(G){
-    graphObject = new GraphObject(G)
-    scene.add(graphObject.graph_obj);
+    window.G = G;
+    graphObject = new GraphObject(G, {
+        "links":true, 
+        "labels": {
+            'artists':{'minDegree': 0}, 
+            'exhibitions': {'minDegree': 10}
+        }
+    });
+    scene.add(graphObject.mesh);
 });
 
 window.addEventListener( 'resize', onWindowResize, false );
@@ -312,5 +357,14 @@ function animate() {
 }
 animate();
 
-
-
+function set_labels_size(size=0.001, f=undefined){
+    labels = graphObject.mesh.children[1].children;
+    for(let sprite of labels){
+        let text_height = size;
+          if(f instanceof Function){
+            text_height*=f(sprite.degree);
+          }
+      let aspect = sprite.scale.x / sprite.scale.y;
+      sprite.scale.set(text_height, text_height/aspect)
+    }
+}

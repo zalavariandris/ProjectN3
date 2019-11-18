@@ -1,12 +1,12 @@
-var db;
+var connection;
 var app;
 app = new Vue({
   el: '#app',
   data: {
   	query_exhibition: "",
   	artist_filter_expression: `artist.name.split(" ").some((word)=> {
-  return word == word.toLowerCase();
-});`,
+	  return word == word.toLowerCase();
+	});`,
 	artist_filter_valid: true,
 	artist_filter_error_msg: "",
   	query_gallery: "",
@@ -17,7 +17,7 @@ app = new Vue({
   computed:{
     exhibitions: function(){
     	if(this.loaded){
-    		let contents = db.exec("SELECT id, title, gallery_id, date, html FROM exhibitions WHERE title LIKE '"+"%"+this.query_exhibition+"%"+"'");
+    		let contents = connection.exec("SELECT id, title, gallery_id, date, html FROM exhibitions WHERE title LIKE '"+"%"+this.query_exhibition+"%"+"'");
 	
 			if(contents.length==0)
 				return []
@@ -29,7 +29,7 @@ app = new Vue({
 					id: row[0],
 					title: row[1],
 					date: row[3],
-					artists: getArtistsAtExhibition(db, row[0]),
+					artists: getArtistsAtExhibition(connection, row[0]),
 					html: html
 				});
 			}
@@ -38,10 +38,11 @@ app = new Vue({
     		return [];
     	}
     },
+
     artists: function(){
     	if(this.loaded){
     		let self = this;
-    		let artists = getArtists(db, this.query_artist);
+    		let artists = getArtists(connection, this.query_artist);
     		let expr = self.artist_filter_expression;// `artist.name.split(" ").some((word)=> { return word == word.toLowerCase(); });`
     		if(!expr)
     			return artists;
@@ -72,9 +73,10 @@ var sql_select_artists_at_exhibitions = `
 	INNER JOIN artists a ON a.id = ae.artist_id
 	WHERE ae.exhibition_id = {};
 `
-function getArtistsAtExhibition(db, exhibition_id){
+function getArtistsAtExhibition(connection, exhibition_id){
 	let sql = sql_select_artists_at_exhibitions.replace("{}", exhibition_id);
-	contents = db.exec(sql);
+	console.log(sql)
+	let contents = connection.exec(sql);
 	let artists = [];
 	for(row of contents[0].values){
 		artists.push({
@@ -93,13 +95,14 @@ var sql_select_entities_with_filter = `
     INNER JOIN artists a ON a.id = ae.artist_id
     WHERE a.name LIKE '{a}' AND e.title LIKE '{e}' AND g.name LIKE '{g}';
     `
-function getEntitiesTable(db, artist_filter, gallery_filter, exhibition_filter){
+    
+function getEntitiesTable(connection, artist_filter, gallery_filter, exhibition_filter){
 	let sql = sql_select_entities_with_filter
 		.replace("{a}", "%"+artist_filter+"%")
 		.replace("{g}", "%"+gallery_filter+"%")
 		.replace("{e}", "%"+exhibition_filter+"%");
 
-	let contents = db.exec(sql);
+	let contents = connection.exec(sql);
 	if(contents.length==0)
 		return []
 
@@ -111,8 +114,8 @@ function getEntitiesTable(db, artist_filter, gallery_filter, exhibition_filter){
 	console.log(contents);
 	for(row of contents[0].values){
 		items['artists'].push({
-				'id': row[0],
-				'name': row[1]
+			'id': row[0],
+			'name': row[1]
 		});
 
 		items['exhibitions'].push({
@@ -135,9 +138,9 @@ SELECT id, title, gallery_id, date
 FROM exhibitions 
 WHERE title LIKE '%{}%'
 `
-function getExhibitionsTable(db, query){
+function getExhibitionsTable(connection, query){
 	let sql = sql_select_exhibitions.replace("{}", query);
-	let contents = db.exec();
+	let contents = connection.exec();
 	
 	if(contents.length==0)
 		return []
@@ -168,9 +171,9 @@ GROUP BY artist_id
 ORDER BY COUNT(*) DESC;
 `
 
-function getArtists(db, query){
+function getArtists(connection, query){
 	let sql = sql_select_artists_with_exhibition_count.replace("{}", "%"+query+"%");
-	let contents = db.exec(sql);
+	let contents = connection.exec(sql);
 	items = []
 	if(contents.length==0)
 		return []
@@ -185,8 +188,8 @@ function getArtists(db, query){
 	return items;
 }
 
-function getGalleriesTable(db, query){
-	let contents = db.exec("SELECT id, name FROM galleries WHERE name LIKE '"+"%"+query+"%"+"'");
+function getGalleriesTable(connection, query){
+	let contents = connection.exec("SELECT id, name FROM galleries WHERE name LIKE '"+"%"+query+"%"+"'");
 	items = []
 	if(contents.length==0)
 		return []
@@ -201,31 +204,35 @@ function getGalleriesTable(db, query){
 }
 
 function onDBLoad(database){
-	db = database;
+	connection = database;
 	app.loaded=true;
-
 	console.log("db loaded");
 }
 
 // load database
 config = {
-	locateFile: filename => `/libs/${filename}` 
+	locateFile: filename => `/vendor/${filename}` 
 }
 
 initSqlJs(config).then(function(SQL){
 	var xhr = new XMLHttpRequest();
-		console.log("donwload ikon.db");
-		xhr.open('GET', 'resources/ikon.db', true);
-		xhr.responseType = 'arraybuffer';
+	console.log("donwload ikon.db");
+	xhr.open('GET', './resources/ikon.db', true);
+	xhr.responseType = 'arraybuffer';
 
-		xhr.onprogress = function(e){
-			console.log(e.total/e.loaded, "%");	
-		};
-		xhr.onload = function(e) {
-		  var uInt8Array = new Uint8Array(this.response);
-		  var db = new SQL.Database(uInt8Array);
-		  onDBLoad(db);  
-		};
-		xhr.send();
-	var db = new SQL.Database();
+	xhr.onprogress = function(e){
+		console.log(e.total/e.loaded, "%");	
+	};
+
+	xhr.onload = function(e) {
+	  var uInt8Array = new Uint8Array(this.response);
+	  var connection = new SQL.Database(uInt8Array);
+	  onDBLoad(connection);  
+	};
+
+	xhr.onerror = function(e) {
+	  console.log("error:",e); 
+	};
+	xhr.send();
+	var connection = new SQL.Database();
 });

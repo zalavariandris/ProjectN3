@@ -7,6 +7,7 @@
         <script type="text/javascript" src="./vendor/three.js"></script>
         <script type="text/javascript" src="./vendor/TrackballControls.js"></script>
         <script type="text/javascript" src="./vendor/stats.js"></script>
+        <script src="./vendor/jsnetworkx.js"></script>
         <style type="text/css">
             body{
                 font-family: monospace;
@@ -44,32 +45,6 @@
 
         <script type="text/javascript" src="./src/graph.js"></script>
         <script>
-            // function upload_files(files) {
-            //     document.createEle
-            //     // let upload_results = document.getElementById("upload_results_element");
-            //     let formData = new FormData(),
-            //         xhr = new XMLHttpRequest();
-
-            //     console.log("Dropped " + String(files.length) + " files.");
-            //     for(let i=0; i<files.length; i++) {
-            //         formData.append("file", files[i]);
-            //     }
-
-            //     xhr.onreadystatechange = function() {
-            //         if(xhr.readyState === XMLHttpRequest.DONE) {
-            //             alert(xhr.responseText);
-            //         }
-
-            //         console.log(xhr.response);
-            //         // upload_results.innerHTML = this.response;
-            //     }
-
-            //     console.log("Let's upload files: ", formData);
-            //     xhr.open('POST', 'upload_handler.py', true); // async = true
-            //     xhr.send(formData); 
-            // }
-
-
             function dataURItoBlob(dataURI) {
                 // convert base64/URLEncoded data component to raw binary data held in a string
                 let byteString;
@@ -87,26 +62,10 @@
                 return new Blob([ia], {type:mimeString});
             }
 
-            // function makeScreenshots() {
-            //   var desiredWidth = 7000;
-            //   var desiredHeight = 7000;
-            //   var stepX = 1000;
-            //   var stepY = 1000;
-            //   for (var y = 0; y < desiredHeight; y += stepY) {
-            //     for (var x = 0; x < desiredWidth; x += stepX) {
-            //       camera.setViewOffset( desiredWidth, desiredHeight, x, y, stepX, stepY );
-            //       renderer.render( scene, camera );
-            //       var screenshotDataURL = renderer.domElement.toDataURL();
-            //       saveScreenshot( "screenshot" + x + "-" + y + ".png", screenshotDataURL );
-            //     }
-            //   }
-            // }
-
             function capture(fullWidth, fullHeight, x, y, width, height){
                 console.log("capture", fullWidth, fullHeight, x, y, width, height);
                 camera.setViewOffset(fullWidth, fullHeight, x, y, width, height);
                 camera.updateProjectionMatrix();
-
 
                 //create screenshot
                 renderer.render( scene, camera );
