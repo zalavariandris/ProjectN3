@@ -45,39 +45,29 @@ class Links{
         this.create_mesh(); 
     }
 
-    setColors(f){
-        const edges = this.G.edges;
-        const n = edges.length;
-        var colors = this.mesh.geometry.attributes.color.array;
-        for(let e=0; e<n; e++){
-            let color = f(this.G.edges[e]);
-            colors[e*6+0] = colors[e*6+3+0] = color.r*255;
-            colors[e*6+1] = colors[e*6+3+1] = color.g*255;
-            colors[e*6+2] = colors[e*6+3+2] = color.b*255;
-        }
-        this.mesh.geometry.attributes.color.needsUpdate = true;
-    }
-
     create_mesh(){
-        let nodes = this.G['nodes'];
-        let edges = this.G['edges'];
-
         let geometry = new THREE.BufferGeometry();
-        let vertices = new Float32Array( edges.length*(3+3) );
+        let vertices = new Float32Array( this.G.links.length*(3+3) );
         let colors = new Uint8Array(vertices.length/3.0*3.0 );
 
-        for(let e=0; e<edges.length; e++){
-            let edge = edges[e];
-            let s = nodes[edge['source']];
-            let t = nodes[edge['target']];
+        const link_to_nodes = {};
+        for(let node of this.G.nodes){
+            link_to_nodes[node.id] = node;
+        }
 
-            vertices[e*6+0] = s['pos'][0];
-            vertices[e*6+1] = s['pos'][1];
-            vertices[e*6+2] = s['pos'][2];
+        for(let i=0; i<this.G.links.length; i++){
+            let edge = this.G.links[i];
+            let s = link_to_nodes[edge['source']];
+            let t = link_to_nodes[edge['target']];
 
-            vertices[e*6+3+0] = t['pos'][0];
-            vertices[e*6+3+1] = t['pos'][1];
-            vertices[e*6+3+2] = t['pos'][2];
+            /* set vertices positions */
+            vertices[i*6+0] = s['pos'][0];
+            vertices[i*6+1] = s['pos'][1];
+            vertices[i*6+2] = s['pos'][2];
+
+            vertices[i*6+3+0] = t['pos'][0];
+            vertices[i*6+3+1] = t['pos'][1];
+            vertices[i*6+3+2] = t['pos'][2];
 
             // Color edges by direction
             let r = Math.abs(s['pos'][0] - t['pos'][0]);
@@ -88,9 +78,9 @@ class Links{
             g/=length;
             b/=length;
 
-            colors[e*6+0] = colors[e*6+3+0] = r*255;
-            colors[e*6+1] = colors[e*6+3+1] = g*255;
-            colors[e*6+2] = colors[e*6+3+2] = b*255;
+            colors[i*6+0] = colors[i*6+3+0] = r*255;
+            colors[i*6+1] = colors[i*6+3+1] = g*255;
+            colors[i*6+2] = colors[i*6+3+2] = b*255;
         }
 
         geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
@@ -108,28 +98,35 @@ class Links{
         web.renderOrder = -1;
         this.mesh = web;
     }
+
+    setColors(f){
+        const edges = this.G.edges;
+        const n = edges.length;
+        var colors = this.mesh.geometry.attributes.color.array;
+        for(let e=0; e<n; e++){
+            let color = f(this.G.edges[e]);
+            colors[e*6+0] = colors[e*6+3+0] = color.r*255;
+            colors[e*6+1] = colors[e*6+3+1] = color.g*255;
+            colors[e*6+2] = colors[e*6+3+2] = color.b*255;
+        }
+        this.mesh.geometry.attributes.color.needsUpdate = true;
+    }
 }
 
 class Labels{
-    constructor(G, options){
+    constructor(G){
         this.G = G;
-        this.mesh = this.create_mesh(options);
+        this.create_mesh();
     }
 
-    create_mesh(options){
-        let nodes = this.G.nodes;
+    create_mesh(){
         let mesh = new THREE.Group()
-        for(let n in nodes)
+        for(let node of this.G.nodes)
         {
-            if(n[0]=="A" && nodes[n].degree<options.artists.minDegree){
-                continue;
-            }
-            if(n[0]=="E" && nodes[n].degree<options.exhibitions.minDegree){
-                continue;
-            }
+            console.log(node)
             // attributes
-            let text = nodes[n].label;
-            let textHeight = 0.0025* Math.pow(nodes[n].degree/2, 1.2);
+            let text = node.label;
+            let textHeight = 0.0025 * node['degree_centrality']*1000;
             let fontFace = "Futura";
             let fontSize = 64; // 32
             let font = "normal "+fontSize+"px"+" "+fontFace;
@@ -162,15 +159,14 @@ class Labels{
                 // let o = new THREE.Object3D()
                 // o.add(sprite);
 
-                sprite.position.set(nodes[n]['pos'][0], nodes[n]['pos'][1], nodes[n]['pos'][2]);
+                sprite.position.set(node['pos'][0], node['pos'][1], node['pos'][2]);
                 let aspect = canvas.width/canvas.height;
                 sprite.center = new THREE.Vector2(1,0);
-                sprite.scale.set(textHeight * aspect, textHeight);
-                sprite.degree = nodes[n].degree;
+                sprite.scale.set(textHeight * aspect, textHeight);  
                 mesh.add(sprite);
             }
         }
-        return mesh;
+        this.mesh = mesh;
     }
 }
 
@@ -317,7 +313,7 @@ document.body.appendChild( stats.dom );
 
 init()
 
-fetch("./resources/ikon_artists_exhibitions_graph2.json")
+fetch("./resources/ikon_artists-exhibitions_graph_5degree.json")
 .then((resp)=> resp.json())
 .then(function(G){
     window.G = G;

@@ -12,7 +12,7 @@ def build_artists_exhibitions_graph(connection):
 	G = nx.Graph()
 	for exhibition in select_exhibitions(connection):
 	    G.add_node("E{:06}".format(exhibition[0]),
-	               position=[0,0,0],
+	               pos=[0,0,0],
 	               label=exhibition[1],
 	               color="orange", 
 	               size=1.0
@@ -23,7 +23,7 @@ def build_artists_exhibitions_graph(connection):
 
 	    for artist in artists:
 	        G.add_node("A{:06}".format(artist[0]), 
-	                   position=[0,0,0],
+	                   pos=[0,0,0],
 	                   label=artist[1],
 	                   color="cyan"
 	                  )
@@ -32,15 +32,10 @@ def build_artists_exhibitions_graph(connection):
 	                   weight=1.0/len(artists)
 	                  )
 
-	for node, pagerank in nx.pagerank(G).items():
-		G.node[node]['pagerank'] = pagerank
-
-	# Filter nodes by degree
-	G = G.subgraph([n for n in G.nodes() if G.degree(n)>5])
 	return G
 
 @profile
-def build_artists_graph(connection):
+def build_artists_artist_graph(connection):
 	from itertools import combinations
 	G = nx.Graph()
 	for exhibition in select_exhibitions(connection):
@@ -59,7 +54,7 @@ def build_artists_graph(connection):
 	return H
 
 @profile
-def create_graph_json(G)->'json':
+def write_graph_json(G, filepath)->'json':
 	j = {
 		'nodes': {}, 
 		'edges': []
@@ -75,19 +70,60 @@ def create_graph_json(G)->'json':
 		w = G.edges[edge]['weight']
 		j['edges'].append({'source':u, 'target': v, 'weight': w})
 
-	print("layout nodes...")
-	positions = nx.spring_layout(G, dim=3)    
-	for n, position in positions.items():
-		j['nodes'][n]['pos'] = [position[0], position[1], position[2]]
 
-	for node in G.nodes:
-		degree = G.degree(node, "weight")
-		j['nodes'][node]['degree'] = degree
+	# add attributes
+	for node, attributes in G.nodes(True):
+		for key, value in attributes.items():
+			j['nodes'][key] = value
 
-	for node, pagerank in nx.pagerank(G).items():
-		j['nodes'][node]['pagerank'] = pagerank
+	print("graph created with {} node and {} edges".format(len(j['nodes']), len(j['edges'])))
 
+	import json
+	with open(filepath, "w", encoding='utf-8') as file:
+		json.dump(j, file, ensure_ascii=False, sort_keys=True, indent=4)
 	return j
+
+@profile
+def layout_nodes(G):
+	positions = nx.spring_layout(G, dim=3)    
+	for node, position in positions.items():
+		G.node[node]['pos'] = [position[0], position[1], position[2]]
+
+@profile
+def calc_degree_centrality(G):
+	for node, degree_centrality in nx.pagerank(G).items():
+		G.node[node]['degree_centrality'] = degree_centrality
+	return G
+
+@profile
+def calc_pagerank(G):
+	for node, pagerank in nx.pagerank(G).items():
+		G.node[node]['pagerank'] = pagerank
+	return G
+
+@profile
+def calc_eigenvector_centrality(G):
+	for node, eigenvector_centrality in nx.closeness_centrality(G).items():
+		G.node[node]['eigenvector_centrality'] = eigenvector_centrality
+	return G
+
+@profile
+def calc_closeness_centrality(G):
+	for node, closeness_centrality in nx.eigenvector_centrality(G).items():
+		G.node[node]['closeness_centrality'] = closeness_centrality
+	return G
+
+@profile
+def calc_betweenness_centrality(G):
+	for node, betweenness_centrality in nx.betweenness_centrality(G).items():
+		G.node[node]['betweenness_centrality'] = betweenness_centrality
+	return G
+
+@profile
+def filter_graph_by_degree(G, degree):
+	return G.subgraph([n for n in G.nodes() if G.degree(n)>degree])
+
+
 
 if __name__ == "__main__":
 	connection = connectToDatabase("../resources/ikon.db")
@@ -95,19 +131,40 @@ if __name__ == "__main__":
 	# G = build_artists_exhibitions_graph(connection)
 	# j = create_graph_json(G)
 	# import json
-	# with open("../resources/ikon_artists_exhibitions_graph.json", "w", encoding='utf-8') as file:
-	# 	json.dump(j, file, ensure_ascii=False, sort_keys=True, indent=4)
+
 
 	"""build graph"""
 	G = build_artists_exhibitions_graph(connection)
+	# G = build_artists_artist_graph(connection)
 
-	# G = build_artists_graph(connection)
-	"""create json"""
-	j = create_graph_json(G)
+	"""filter graph"""
+	G = filter_graph_by_degree(G, 5)
 
-	"""save json file"""
+	"""layout graph"""
+	layout_nodes(G)
+
+	"""calc centralities"""
+	calc_pagerank(G)
+	calc_degree_centrality(G)
+
 	import json
-	with open("../resources/ikon_artists_exhibitions_graph2.json", "w", encoding='utf-8') as file:
-		json.dump(j, file, ensure_ascii=False, sort_keys=True, indent=4)
+	with open("../resources/ikon_artists-exhibitions_graph_5degree.json", "w", encoding='utf-8') as file:
+		data = nx.node_link_data(G)
+		json.dump(data, file, ensure_ascii=False, sort_keys=True, indent=4)
+	
+	# calc_closeness_centrality(G)
+	# calc_betweenness_centrality(G)
+	# calc_eigenvector_centrality(G)
+
+
+	# G.write_gexf("../resources/ikon_artists-exhibitions_graph.gexf")
+	
+	"""create json"""
+	# j = write_graph_json(G, "../resources/ikon_artists-exhibitions_graph.json")
+
+	# with open("../resources/ikon_artists_exhibitions_graph.json", "w", encoding='utf-8') as file:
+	# 	json.dump(j, file, ensure_ascii=False, sort_keys=True, indent=4)
+	
+	"""save json file"""
 
 
