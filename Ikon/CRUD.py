@@ -95,8 +95,7 @@ def select_exhibitions_at_gallery(connection, gallery):
     JOIN galleries g ON g.id = e.gallery_id
     WHERE e.gallery_id IS ?;
     '''
-
-    return connection.execute(sql, (gallery[0] )).fetchall()
+    return connection.execute(sql, (gallery[0], )).fetchall()
 
 def select_artists(connection):
     sql = '''
@@ -191,10 +190,10 @@ def select_gallery_where_name_is(connection, name):
     sql = '''
     SELECT id, name
     FROM galleries
-    WHERE name = '{name}';
-    '''.replace('{name}', name)
+    WHERE name = ?;
+    '''
 
-    return connection.execute(sql).fetchone();
+    return connection.execute(sql, (name,)).fetchone();
 
 def select_gallery_where_name_like(connection, text):
     sql = '''

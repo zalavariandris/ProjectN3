@@ -61,18 +61,18 @@ class Links{
             let t = link_to_nodes[edge['target']];
 
             /* set vertices positions */
-            vertices[i*6+0] = s['pos'][0];
-            vertices[i*6+1] = s['pos'][1];
-            vertices[i*6+2] = s['pos'][2];
+            vertices[i*6+0] = s['x'];
+            vertices[i*6+1] = s['y'];
+            vertices[i*6+2] = s['z'];
 
-            vertices[i*6+3+0] = t['pos'][0];
-            vertices[i*6+3+1] = t['pos'][1];
-            vertices[i*6+3+2] = t['pos'][2];
+            vertices[i*6+3+0] = t['x'][0];
+            vertices[i*6+3+1] = t['y'][1];
+            vertices[i*6+3+2] = t['z'][2];
 
             // Color edges by direction
-            let r = Math.abs(s['pos'][0] - t['pos'][0]);
-            let g = Math.abs(s['pos'][1] - t['pos'][1]);
-            let b = Math.abs(s['pos'][2] - t['pos'][2]);
+            let r = Math.abs(s['x'][0] - t['x'][0]);
+            let g = Math.abs(s['y'][1] - t['y'][1]);
+            let b = Math.abs(s['z'][2] - t['z'][2]);
             let length = Math.sqrt(r*r+g*g+b*b);
             r/=length;
             g/=length;
@@ -159,7 +159,7 @@ class Labels{
                 // let o = new THREE.Object3D()
                 // o.add(sprite);
 
-                sprite.position.set(node['pos'][0], node['pos'][1], node['pos'][2]);
+                sprite.position.set(node['x'], node['y'], node['z']);
                 let aspect = canvas.width/canvas.height;
                 sprite.center = new THREE.Vector2(1,0);
                 sprite.scale.set(textHeight * aspect, textHeight);  
