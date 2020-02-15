@@ -275,7 +275,7 @@ def select_exhibitions_of_artist(connection, artist):
 
 def select_artists_of_exhibition(connection, exhibition):
     sql='''
-    SELECT a.id,a.name
+    SELECT a.id, a.name
     FROM artists_exhibitions ae 
     INNER JOIN exhibitions e ON e.id == ae.exhibition_id 
     INNER JOIN artists a ON a.id == ae.artist_id

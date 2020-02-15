@@ -2,9 +2,7 @@ from utilities.profiler import profile
 import CRUD
 import pandas as pd
 
-KISVARSÓ
-NAGY BOGLÁRKA
-indicatives = [
+professions = [
     "kulturális antropológus",
     "történész",
     "antropológus",
@@ -78,14 +76,14 @@ if __name__ == "__main__":
     '''
     
     data = connection.execute(sql).fetchall()
-    df = pd.DataFrame(data, columns=['id', 'name', 'no_exhibitions'])
+    df = pd.DataFrame(data, columns=['id', 'ikonname', 'no_exhibitions'])
     
-        
     for idx, row in df.iterrows():
-        print(idx, row['id'], row['name'])
-        for indicative in indicatives:
-            if indicative in row['name']:
-                df.loc[idx, 'name'] = row['name'].replace(indicative, '').strip()
-                df.loc[idx, 'indicative'] = indicative
+        print(idx, row['id'], row['ikonname'])
+        for profession in professions:
+            if profession in row['name']:
+                df.loc[idx, 'ikonname'] = row['name']
+                df.loc[idx, 'cleanname'] = row['name'].replace(indicative, '').strip()
+                df.loc[idx, 'profession'] = profession
 
     df.to_excel('./data/artist_list.xlsx')
