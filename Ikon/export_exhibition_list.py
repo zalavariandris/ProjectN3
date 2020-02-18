@@ -8,7 +8,7 @@ if __name__ == "__main__":
     SELECT e.id, e.title, e.date, g.name
     FROM exhibitions e
     JOIN galleries g ON g.id = e.gallery_id
-    ORDER BY date DESC;
+    ORDER BY date DESC, title ASC;
     '''
     
     data = connection.execute(sql).fetchall()
@@ -27,7 +27,8 @@ if __name__ == "__main__":
         "workshop",
         "bemutató",
         "pályázat",
-        "felhívás"
+        "felhívás",
+        "Reading Club"
     ]
     
     for idx, row in df.iterrows():
@@ -44,6 +45,6 @@ if __name__ == "__main__":
         print("{}/{}".format(progress, progress_max), row['title'])
         artists = CRUD.select_artists_of_exhibition(connection, (idx, ) )
         names = "; ".join([a[1] for a in artists])
-        df[idx, 'artists'] = names
+        df.loc[idx, 'artists'] = names
 
-    df.to_excel('./data/gallery_list.xlsx')
+    df.to_excel('./data/exhibition_list_clean_v000.xlsx')
