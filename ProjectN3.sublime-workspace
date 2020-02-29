@@ -1,0 +1,418 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"min-",
+				"min-height\tproperty"
+			],
+			[
+				"grid-template",
+				"grid-template-rows\tproperty"
+			],
+			[
+				"st",
+				"stylesheet"
+			],
+			[
+				"view",
+				"viewport"
+			],
+			[
+				"rec",
+				"rectangles_layer\tQGraphicsLayerItem ⟠"
+			],
+			[
+				"rectangles",
+				"rectangles_layer\tunknown ⟠"
+			],
+			[
+				"calc_",
+				"calc_closeness_centrality"
+			],
+			[
+				"gallery",
+				"other_gallery"
+			],
+			[
+				"select_",
+				"select_galleries"
+			],
+			[
+				"select_gr",
+				"select_gallery_of_exhibition"
+			],
+			[
+				"select",
+				"select_galleries"
+			],
+			[
+				"build_",
+				"build_gallery_gallery_graph"
+			],
+			[
+				"Sta",
+				"START"
+			],
+			[
+				"re",
+				"request_ikon_archive"
+			],
+			[
+				"get",
+				"getCurrentFrame"
+			],
+			[
+				"In",
+				"INPUT"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Ikon/build_sql.py",
+			"settings":
+			{
+				"buffer_size": 3012,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Ikon/CRUD.py",
+			"settings":
+			{
+				"buffer_size": 6824,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Ikon/parse_ikon.py",
+			"settings":
+			{
+				"buffer_size": 3401,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/Conda/Conda.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mypy3env.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Python3.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/andris/ProjectN3",
+		"/C/Users/andris/ProjectN3/Ikon"
+	],
+	"file_history":
+	[
+		"/C/Users/andris/ProjectN3/Ikon/build_sql_merge_ikonid.py",
+		"/C/Users/andris/Documents/andraszalavari_jekyll/assets/js/carousel.js",
+		"/C/Users/andris/Documents/andraszalavari_jekyll/assets/css/carousel.css",
+		"/C/Users/andris/Documents/andraszalavari_jekyll/_layouts/default.html",
+		"/C/Users/andris/Documents/andraszalavari_jekyll/_layouts/post.html",
+		"/C/Users/andris/Documents/andraszalavari_jekyll/assets/css/layout.css",
+		"/C/Users/andris/Documents/andraszalavari_jekyll/_includes/carousel.html",
+		"/C/Users/andris/ProjectN3/Ikon/data/fuzzy_map.dat",
+		"/C/Users/andris/rectscan_szigliget/rectscan_szigliget.py",
+		"/C/Users/andris/Desktop/A legfontosabb pontok a DLA-hoz és a kiállításhoz.md",
+		"/C/Users/andris/ProjectN3/resources/ikon_gallery_gallery_nodes.csv",
+		"/C/Users/andris/ProjectN3/Ikon/CRUD.py",
+		"/C/Users/andris/ProjectN4Vue/Ikon/CRUD.py",
+		"/C/Users/andris/ProjectN4Vue/Ikon/sql_to_graph.py",
+		"/C/Users/andris/Desktop/PerspScan/Production/perspscan_src/cropper.py",
+		"/C/Users/andris/Desktop/response,html.html",
+		"/C/Users/andris/ProjectN4Vue/Ikon/sql/CRUD.py",
+		"/C/Users/andris/ProjectN4Vue/Ikon/database/clean/clean.md",
+		"/C/Users/andris/Desktop/PerspScan/Production/perspscan_src/reader.py"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Ikon/build_sql.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3012,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1509,
+								1509
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 652.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Ikon/CRUD.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6824,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								986,
+								986
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Ikon/parse_ikon.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3401,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1567,
+								1567
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 165.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.Terminus":
+	{
+		"height": 96.0
+	},
+	"output.exec":
+	{
+		"height": 264.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "ProjectN3.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 352.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -20,10 +20,10 @@ def connectToDatabase(filepath)->'sqlite3.Connection':
 INSERT SELECT UPDATE DELETE
 """
 # INSERT
-def insert_exhibition(connection, title, _date, gallery_id, html):
+def insert_exhibition(connection, title, ikonid, _date, gallery_id, html):
     sql = '''
-    INSERT INTO exhibitions(title, date, gallery_id, html)
-    VALUES (?,?,?,?);'''
+    INSERT INTO exhibitions(title, ikonid, date, gallery_id, html)
+    VALUES (?,?,?,?,?);'''
 
     cursor = connection.cursor()
     cursor.execute(sql, (title, _date, gallery_id, html))

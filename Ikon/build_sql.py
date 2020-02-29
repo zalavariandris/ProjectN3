@@ -26,6 +26,7 @@ def init_database(filename="./data/ikon.db"):
     print("create tables...");
     sql_create_exhibitions_table = """CREATE TABLE IF NOT EXISTS exhibitions (
         id integer PRIMARY KEY,
+        ikonid integer,
         title text NOT NULL,
         gallery_id integer,
         date text,
@@ -72,7 +73,7 @@ def fill_database(connection, data):
             gallery_id = gallery[0]
 
         # insert exhibition
-        exhibition_id = insert_exhibition(connection, row['title'], row['date'], gallery_id, row['html'])
+        exhibition_id = insert_exhibition(connection, row['title'], row['ikonid'], row['date'], gallery_id, row['html'])
 
         # insert artists
         for artist_name in row['artists']:

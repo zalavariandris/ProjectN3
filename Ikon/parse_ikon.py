@@ -29,6 +29,12 @@ def parse_page(page):
         except Exception as err:
             raise Exception(err, elem)
 
+    def parse_ikonid(elem):
+        try:
+            return elem.find("a", class_="title")['href'].split("/")[2]
+        except Exception as err:
+            raise Exception(err, elem)
+
     def parse_gallery(elem):
         return elem.find("a", class_="gallery").text
 
@@ -38,6 +44,7 @@ def parse_page(page):
     def parse_row(elem):
         return {
             "title": parse_title(elem),
+            "ikonid": parse_ikonid(elem),
             "gallery": parse_gallery(elem),
             "date": parse_date(elem),
             "artists": parse_artists(elem),

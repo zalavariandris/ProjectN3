@@ -43,7 +43,7 @@ if __name__ == "__main__":
     for idx, row in df.iterrows():
         progress+=1
         print("{}/{}".format(progress, progress_max), row['title'])
-        artists = CRUD.select_artists_of_exhibition(connection, (idx, ) )
+        artists = CRUD.select_artists_of_exhibition(connection, (row['id'], ) )
         names = "; ".join([a[1] for a in artists])
         df.loc[idx, 'artists'] = names
 
