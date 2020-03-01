@@ -26,7 +26,7 @@ def insert_exhibition(connection, title, ikonid, _date, gallery_id, html):
     VALUES (?,?,?,?,?);'''
 
     cursor = connection.cursor()
-    cursor.execute(sql, (title, _date, gallery_id, html))
+    cursor.execute(sql, (title, ikonid, _date, gallery_id, html))
     return cursor.lastrowid
 
 def insert_gallery(connection, name):

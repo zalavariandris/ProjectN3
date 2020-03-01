@@ -3,16 +3,16 @@ import CRUD
 import pandas as pd
 
 if __name__ == "__main__":
-    connection = CRUD.connectToDatabase("./data/ikon.db")
+    connection = CRUD.connectToDatabase("./data/ikon2.db")
     sql = '''
-    SELECT e.id, e.title, e.date, g.name
+    SELECT e.id, e.ikonid, e.title, e.date, g.name
     FROM exhibitions e
     JOIN galleries g ON g.id = e.gallery_id
     ORDER BY date DESC, title ASC;
     '''
     
     data = connection.execute(sql).fetchall()
-    df = pd.DataFrame(data, columns=['id', 'title', 'date', 'gallery'])
+    df = pd.DataFrame(data, columns=['id', 'ikonid', 'title', 'date', 'gallery'])
 
     # Create events column
     events = [
@@ -47,4 +47,5 @@ if __name__ == "__main__":
         names = "; ".join([a[1] for a in artists])
         df.loc[idx, 'artists'] = names
 
+    df = df.set_index('id')
     df.to_excel('./data/exhibition_list_clean_v000.xlsx')
